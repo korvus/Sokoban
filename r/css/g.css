@@ -11,6 +11,7 @@ body, html{margin:0;padding:0;background:url(i/bg.jpg) 0 0;}
   font-style: normal;
 }
 
+kbd, input, textarea, button,
 body{color: #000;font-family:Aztex, sans-serif;}
 body svg {fill: currentColor;width:50%;margin:0 auto;display:block;opacity:0.5;}
 
@@ -48,7 +49,7 @@ overflow: hidden;
   position: absolute;
   top: -10%;
   left: -10%;
-  background-image:url(i/wall.png),  url(i/ground.png);
+  background-image:url(i/wall.png);
   background-repeat: no-repeat;
   width:110%;
   background-size: cover;
@@ -63,6 +64,7 @@ overflow: hidden;
 
 .floor{background-image:url(i/ground.png);}
 
+
 .walkable{overflow:hidden;}
 .walkable:before{cursor:pointer;display:block;content:"";position:absolute;top:0;left:0;width:100%;padding-bottom:100%;z-index:2;background:rgba(250,0,0,0.4);}
 
@@ -73,6 +75,7 @@ overflow: hidden;
 .stone{background-image:url(i/stone.png), url(i/ground.png);}
 .base{background-image:url(i/base.png), url(i/ground.png);}
 .based{background-image:url(i/based.png), url(i/ground.png);}
+
 
 /* Pushing */
 .pushing-0.fwd{background-image:url(i/push-top-0.png), url(i/ground.png);}
@@ -113,6 +116,33 @@ overflow: hidden;
 .base.bwd{background-image:url(i/forward.png), url(i/base.png), url(i/ground.png);}
 
 
+/* End of the game */
+#grid.end .wall,
+#grid.end .floor{background-color: #000;background-image:none;}
+#grid.end .bwd{background-image:url(i/backward.png);background-color:#000;}
+#grid.end .right{background-image:url(i/chrright.png);background-color:#000;}
+#grid.end .left{background-image:url(i/chrleft.png);background-color:#000;}
+#grid.end .fwd{background-image:url(i/forward.png);background-color:#000;}
+#grid.end .stone{background-image:url(i/stone.png);background-color:#000;}
+#grid.end .base{background-image:url(i/base.png);background-color:#000;}
+#grid.end .based{background-image:url(i/based.png);background-color:#000;}
+
+#grid.end .pushing-0.fwd{background-image:url(i/push-top-0.png);background-color:#000;}
+#grid.end .pushing-0.left{background-image:url(i/push-left-0.png);background-color:#000;}
+#grid.end .pushing-0.right{background-image:url(i/push-right-0.png);background-color:#000;}
+#grid.end .pushing-0.bwd{background-image:url(i/push-bottom-0.png);background-color:#000;}
+
+#grid.end .pushing-1.fwd{background-image:url(i/push-top-1.png);background-color:#000;}
+#grid.end .pushing-1.left{background-image:url(i/push-left-1.png);background-color:#000;}
+#grid.end .pushing-1.right{background-image:url(i/push-right-1.png);background-color:#000;}
+#grid.end .pushing-1.bwd{background-image:url(i/push-bottom-1.png);background-color:#000;}
+
+#grid.end .pushing-2.fwd{background-image:url(i/push-top-2.png);background-color:#000;}
+#grid.end .pushing-2.left{background-image:url(i/push-left-2.png);background-color:#000;}
+#grid.end .pushing-2.right{background-image:url(i/push-right-2.png);background-color:#000;}
+#grid.end .pushing-2.bwd{background-image:url(i/push-bottom-2.png);background-color:#000;}
+
+
 #info{
   color: #111;
   overflow:hidden;
@@ -131,38 +161,43 @@ overflow: hidden;
   letter-spacing:0.5vw;
   margin:0 10px 0 0;
   color: #fff;
-  /*
-  padding: 0 10px 10px 0;
-  border-style: solid;
-  border-width: 14px 16px 17px;
-  -moz-border-image: url(i/borders.png) 14 16 17 repeat;
-  -webkit-border-image: url(i/borders.png) 14 16 17 repeat;
-  -o-border-image: url(i/borders.png) 14 16 17 repeat;
-  border-image: url(i/borders.png) 14 16 17 fill repeat;
-  */
 }
 
 #info .block span{
   font-weight: bold;
 }
 
-#info .block span{
+#info .block span,
+#info .block a{
   color: #555;
   font-size: 2.5vw;
 }
 
 
+#info .block a{
+  color:#aaa;
+  background:#555;
+  padding:10px 20px;
+  text-decoration:none;
+  border:5px solid #666;
+  border-radius:20px 0 0 20px;
+  margin: 0 0 0 10px;
+}
+
+a kbd{
+  text-decoration: underline;
+  color: #fff;
+}
+
 #info #map,
 #info #moves,
-#info #pushes,
-#info #time{
+#info #pushes{
     text-align: right;
 }
 
 #info #map    {font-size:4vw;margin:0 1vw 5% 0.5vw;}
 #info #moves  {}
 #info #pushes {}
-#info #time   {}
 
 #elevator{
     background-color: #CCC;

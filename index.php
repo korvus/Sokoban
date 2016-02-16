@@ -32,7 +32,9 @@
         moves: <span id="moves">0000</span><br />
         pushes: <span id="pushes">0000</span>
       </div>
-      <div class="block">time: <span id="time">00:00:00</span></div>
+      <div class="block">
+        <a href="#" id="undo"><kbd>U</kbd>ndo</a>
+      </div>
     </div>
 
     <div id="maps">

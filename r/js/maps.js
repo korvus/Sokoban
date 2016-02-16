@@ -8,6 +8,13 @@
 
 var sb_maps =
 [
+'5|5|'+
+    'XXXXX'+
+    'X   X'+
+    'X0 0X'+
+    'X#B#X'+
+    'XXXXX',
+
 
 /* test 
 '7|6|'+

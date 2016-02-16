@@ -47,6 +47,7 @@ function Sokoban(){
     this.click_matching   = 0;
     this.grid_code        = null;
     this.grid             = [];
+    this.path             = [];
     this.floor_coord      = [];
     this.walkable_zone    = [];
     this.undo_strate      = [];
@@ -56,18 +57,9 @@ function Sokoban(){
     this.moves            = 0;
     this.pushes           = 0;
     this.action_push      = 0;
-    this.start_time       = null;
-    this.end_time         = null;
-    this.timer            = null;
     this.grid_size        = null;
     this.undo             = null;
 
-    // Fixme
-    if (window.sb_timer) {
-        clearInterval(window.sb_timer);
-    }
-
-    window.sb_timer = null;
 }
 
 
@@ -109,14 +101,6 @@ Sokoban.prototype.render_grid = function() {
         tmp += '</div>\n\n';
     }
 
-/*
-    tmp += '</div>'
-        +'<div id="info"><span id="map">00</span> <span id="moves">moves: 0000</span> '
-        + '<span id="pushes">pushes: 0000</span> '
-        + '<span id="time">time: 00:00:00</span>'
-        + '</div>';
-*/
-
     $('game').innerHTML = tmp;
 
     this.reinitGame();
@@ -132,8 +116,6 @@ Sokoban.prototype.reinitGame = function(){
   this.update_moves();
   this.pushes = -1;
   this.update_pushes();
-  this.start_time  = new Date().getTime() - 500;
-  this.update_time();
 }
 
 Sokoban.prototype.render_grid_objects = function()
@@ -174,22 +156,21 @@ Sokoban.prototype.render_grid_object = function(k)
 
         switch(this.player_direction) {
             //character turn on left
-            //case SD_LEFT:     $(this.get_grid_id(k)).className = "left";
             case SD_LEFT:
-            $(this.get_grid_id(k)).classList.add("left", pushingClass);
-            break;
+                $(this.get_grid_id(k)).classList.add("left", pushingClass);
+                break;
             //character turn on left
-            //case SD_RIGHT:    $(this.get_grid_id(k)).className = "right";
-            case SD_RIGHT:     $(this.get_grid_id(k)).classList.add("right", pushingClass);
-            break;
+            case SD_RIGHT:
+                $(this.get_grid_id(k)).classList.add("right", pushingClass);
+                break;
             //character turn on left
-            //case SD_FORWARD:  $(this.get_grid_id(k)).className = "fwd";
-            case SD_FORWARD:     $(this.get_grid_id(k)).classList.add("fwd", pushingClass);
-            break;
+            case SD_FORWARD:
+                $(this.get_grid_id(k)).classList.add("fwd", pushingClass);
+                break;
             //character turn on left
-            //case SD_BACKWARD: $(this.get_grid_id(k)).className = "bwd";
-            case SD_BACKWARD:     $(this.get_grid_id(k)).classList.add("bwd", pushingClass);
-            break;
+            case SD_BACKWARD:
+                $(this.get_grid_id(k)).classList.add("bwd", pushingClass);
+                break;
         }
     }
     else if (this.grid[k] & SM_BOX) {
@@ -228,10 +209,7 @@ Sokoban.prototype.init_player_location = function(k, direction)
 Sokoban.prototype.update_moves = function()
 {
     if (this.moves == 0) {
-        this.start_time  = new Date().getTime() - 500;
-        this.end_time    = null;
-        var __timer_hack = this;
-        window.sb_timer  = setInterval(function() {__timer_hack.update_time();}, '500');
+        //If game just start
     }
 
     walk.play();
@@ -246,28 +224,6 @@ Sokoban.prototype.update_pushes = function() {
     this.pushes++;
     //insert push into consol
     $('pushes').innerHTML = lpad(this.pushes, 4);
-}
-
-
-Sokoban.prototype.update_time = function()
-{
-    var len = 0;
-
-    if (this.end_time != null) {
-        len = this.end_time - this.start_time;
-    } else {
-        len = new Date().getTime() - this.start_time;
-    }
-
-
-    len = Math.floor(len / 1000);
-
-    var hrs = Math.floor(len / 3600);
-    len -= hrs * 3600;
-    var min = Math.floor(len / 60);
-    len -= min * 60;
-
-    $('time').innerHTML = lpad(hrs, 2) + ':' + lpad(min, 2) + ':' + lpad(len, 2);
 }
 
 
@@ -292,8 +248,8 @@ Sokoban.prototype.unmap_grid = function()
 }
 
 
-Sokoban.prototype.validate_push = function(m, m_co)
-{
+Sokoban.prototype.validate_push = function(m, m_co){
+
     if (this.grid[m] & SM_WALL || this.grid[m] & SM_BOX) {
         return false;
     }
@@ -314,8 +270,7 @@ Sokoban.prototype.validate_push = function(m, m_co)
 
 Sokoban.prototype.validate_move = function(direction){
 
-    if (this.player_location == null || this.end_time != null) {
-        //When game is finish
+    if (this.end_game) {
         return false;
     }
 
@@ -395,14 +350,15 @@ Sokoban.prototype.validate_move = function(direction){
         //If no any break in previous loop, egc equal 1, level terminate
         if (egc == 1){
             this.end_game = true;
-            this.end_time = new Date().getTime();
-            clearInterval(window.sb_timer);
-            window.sb_timer = null;
-            this.update_time();
+            this.endLevel();
         }
     }
 }
 
+
+Sokoban.prototype.endLevel = function(){
+    $("grid").className = "end";
+}
 
 Sokoban.prototype.undo_move = function(){
 
@@ -457,57 +413,87 @@ Sokoban.prototype.map_tmp_walkable_array = function(){
 
        if(this.grid[a] !== 0){
 
-           //If it's a wall
-           if(this.grid[a] === 2){
-               tmp_grid[a] = 1;
+           switch(this.grid[a]){
+               //Wall
+               case 2: tmp_grid[a] = 1; break;
+               //shelve
+               case 16: tmp_grid[a] = 0; break;
+               //hero
+               case 4: var start = [row_tmp,col_tmp]; tmp_grid[a] = 0; break;
+               //hero on shelve
+               case 20: var start = [row_tmp,col_tmp]; tmp_grid[a] = 0; break;
+               //default
+               default: tmp_grid[a] = 1; break;
            }
 
-           //If it's the hero!
-           if(this.grid[a] === 4){
-               var start = [row_tmp,col_tmp];
-               tmp_grid[a] = 0;
-           }
-
-           //If it's a base
-           if(this.grid[a] === 16){
-               tmp_grid[a] = 0;
-           }
-
-           //tmp_grid[a] = 1;
-
-       }else{tmp_grid[a] = 0;}
+       }else{
+           tmp_grid[a] = 0;
+       }
 
        this.walkable_zone[row_tmp].push(tmp_grid[a]);
 
     }
 
     return start;
-}
+
+ }
+
 
 Sokoban.prototype.set_click_floor = function() {
+    
     var allFloor = document.querySelectorAll(".floor");
+
     for (var floorTile of allFloor) {
         floorTile.addEventListener("mouseover", function(){
             var toGoId = this.getAttribute("id");
             var splitedId = toGoId.split("-");
             var coordEnd = [parseInt(splitedId[1]), parseInt(splitedId[2])];
 
-
             var start = sb.map_tmp_walkable_array();
 
-            var path = findPath(sb.walkable_zone,start,coordEnd);
-            console.log(sb.walkable_zone,start,coordEnd);
+            sb.path = findPath(sb.walkable_zone,start,coordEnd);
 
-            path.forEach(function(tile){
+            sb.path.forEach(function(tile){
                 $("grid-"+tile[0]+"-"+tile[1]).classList.add("walkable");
-            })
+            })       
 
         });
+
+        floorTile.addEventListener("mousedown", function(){
+            var pathIteration = 0;
+            var direction = SD_FORWARD;
+            sb.path.forEach(function(tile){
+                if(pathIteration>0){
+                    
+                    //first value is about vertical
+                    switch(sb.path[pathIteration][0] - sb.path[pathIteration-1][0]){
+                        case 0:
+                            //second value is about horizontal
+                            switch(sb.path[pathIteration][1] - sb.path[pathIteration-1][1]){
+                                case 1: console.log("equal SD_LEFT"); direction = SD_RIGHT; break;
+                                case -1: console.log("equal SD_RIGHT"); direction = SD_LEFT; break;
+                            }
+                            break;
+                        case 1: console.log("equal SD_BACKWARD"); direction = SD_BACKWARD; break;
+                        case -1: console.log("equal SD_FORWARD"); direction = SD_FORWARD; break;
+                    }
+                    
+                    sb.validate_move(direction);
+                    //console.log(direction);
+                }
+                pathIteration++;
+            })
+
+            //sb.validate_move(SD_FORWARD)
+
+        })
+
         floorTile.addEventListener("mouseout", function(){
             [].forEach.call(document.querySelectorAll(".walkable"), function(el){
                 el.classList.remove("walkable");
             });
         });
+
     }
     
 }
