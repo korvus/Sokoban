@@ -48,7 +48,7 @@ overflow: hidden;
   position: absolute;
   top: -10%;
   left: -10%;
-  background-image:url(i/wall.png);
+  background-image:url(i/wall.png),  url(i/ground.png);
   background-repeat: no-repeat;
   width:110%;
   background-size: cover;
@@ -63,7 +63,8 @@ overflow: hidden;
 
 .floor{background-image:url(i/ground.png);}
 
-.walkable{outline:1px solid #f00;background:#f00;}
+.walkable{overflow:hidden;}
+.walkable:before{cursor:pointer;display:block;content:"";position:absolute;top:0;left:0;width:100%;padding-bottom:100%;z-index:2;background:rgba(250,0,0,0.4);}
 
 .bwd{background-image:url(i/backward.png), url(i/ground.png);}
 .right{background-image:url(i/chrright.png), url(i/ground.png);}

@@ -455,12 +455,27 @@ Sokoban.prototype.map_tmp_walkable_array = function(){
            this.walkable_zone[row_tmp] = [];
        }
 
-       if(this.grid[a] === 4){
-           var start = [row_tmp,col_tmp];
-           tmp_grid[a] = 0;
-       }
+       if(this.grid[a] !== 0){
 
-       if(this.grid[a] !== 0){tmp_grid[a] = 1;}else{tmp_grid[a] = 0;}
+           //If it's a wall
+           if(this.grid[a] === 2){
+               tmp_grid[a] = 1;
+           }
+
+           //If it's the hero!
+           if(this.grid[a] === 4){
+               var start = [row_tmp,col_tmp];
+               tmp_grid[a] = 0;
+           }
+
+           //If it's a base
+           if(this.grid[a] === 16){
+               tmp_grid[a] = 0;
+           }
+
+           //tmp_grid[a] = 1;
+
+       }else{tmp_grid[a] = 0;}
 
        this.walkable_zone[row_tmp].push(tmp_grid[a]);
 
@@ -472,19 +487,26 @@ Sokoban.prototype.map_tmp_walkable_array = function(){
 Sokoban.prototype.set_click_floor = function() {
     var allFloor = document.querySelectorAll(".floor");
     for (var floorTile of allFloor) {
-        floorTile.addEventListener("mousedown", function(){
+        floorTile.addEventListener("mouseover", function(){
             var toGoId = this.getAttribute("id");
             var splitedId = toGoId.split("-");
             var coordEnd = [parseInt(splitedId[1]), parseInt(splitedId[2])];
 
+
             var start = sb.map_tmp_walkable_array();
 
             var path = findPath(sb.walkable_zone,start,coordEnd);
+            console.log(sb.walkable_zone,start,coordEnd);
 
             path.forEach(function(tile){
                 $("grid-"+tile[0]+"-"+tile[1]).classList.add("walkable");
             })
 
+        });
+        floorTile.addEventListener("mouseout", function(){
+            [].forEach.call(document.querySelectorAll(".walkable"), function(el){
+                el.classList.remove("walkable");
+            });
         });
     }
     

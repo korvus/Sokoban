@@ -9,21 +9,15 @@
 var sb_maps =
 [
 
-/* test */
-'7|12|'+
+/* test 
+'7|6|'+
     '  XXXXX'+
     'XXX B X'+
-    'X 00  X'+
+    'X 000 X'+
     'X### XX'+
     'X    X '+
-    'X    X '+
-    'X    X '+
-    'X    X '+
-    'X    X '+
-    'X    X '+
-    'X    X '+
     'XXXXXX ',
-
+*/
 /*1*/'19|11|'+
   '    XXXXX          '+
   '    X   X          '+

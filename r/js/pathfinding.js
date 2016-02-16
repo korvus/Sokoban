@@ -1,4 +1,4 @@
-//source from: http://buildnewgames.com/astar/
+//source from: http://buildnewgames.com/astar/ + correction from Walter
 
 
 // world is a 2d array of integers (eg world[10][15] = 0)
@@ -21,8 +21,8 @@ function findPath(world, pathStart, pathEnd)
     // Note that this A-star implementation expects the world array to be square: 
     // it must have equal height and width. If your game world is rectangular, 
     // just fill the array with dummy values to pad the empty space.
-    var worldWidth = world[0].length;
-    var worldHeight = world.length;
+    var worldWidth = world.length;
+    var worldHeight = world[0].length;
     var worldSize =    worldWidth * worldHeight;
 
     // which heuristic should we use?
@@ -66,7 +66,7 @@ function findPath(world, pathStart, pathEnd)
     }
 
     function EuclideanDistance(Point, Goal)
-    {    // diagonals are considered a little farther than cardinal directions
+    {   // diagonals are considered a little farther than cardinal directions
         // diagonal movement using Euclide (AC = sqrt(AB^2 + BC^2))
         // where AB = x2 - x1 and BC = y2 - y1 and AC will be [x3, y3]
         return sqrt(pow(Point.x - Goal.x, 2) + pow(Point.y - Goal.y, 2));
@@ -239,9 +239,9 @@ function findPath(world, pathStart, pathEnd)
                     if (!AStar[myPath.value])
                     {
                         // estimated cost of this particular route so far
-                        myPath.g = myNode.g + distanceFunction(myNeighbours[i], myNode);
+                        myPath.f = myNode.g + distanceFunction(myNeighbours[i], myNode);
                         // estimated cost of entire guessed route to the destination
-                        myPath.f = myPath.g + distanceFunction(myNeighbours[i], mypathEnd);
+                        myPath.g = myPath.g + distanceFunction(myNeighbours[i], mypathEnd);
                         // remember this new path for testing above
                         Open.push(myPath);
                         // mark this node in the world graph as visited
