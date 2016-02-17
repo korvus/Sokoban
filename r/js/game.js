@@ -84,6 +84,7 @@ Sokoban.prototype.grid_cton = function(c)
 
 
 Sokoban.prototype.render_grid = function() {
+
     if (this.grid_code != null) {
         this.unmap_grid();
         this.grid_code = null;
@@ -106,7 +107,6 @@ Sokoban.prototype.render_grid = function() {
     this.reinitGame();
 
     // Size block
-    $('game').style.width  = '90%';
     this.render_grid_objects();
 }
 
@@ -124,25 +124,43 @@ Sokoban.prototype.render_grid_objects = function()
         try {
             this.render_grid_object(k);
         }
+        
         catch(e) {
-            alert(k + '\n' + this.get_grid_id(k) + '\n' + e);
+            console.log(k + '\n' + this.get_grid_id(k) + '\n' + e);
             break;
         }
+        
     }
 
     //Once all cases calculated
+    var heightDevice = window.innerHeight;
+    var widthDevice = window.innerWidth;
+    var marginWidth = (widthDevice*10)/100;
+    var concreteWidth = widthDevice - marginWidth;
+    var boardHeight = heightDevice - 50;
+    var idealHeight = this.roundWithTwoDecimal(boardHeight/this.grid_height);
+    var idealWidth = this.roundWithTwoDecimal(concreteWidth/this.grid_width);
     var nbr = 100/this.grid_width;
+
+    var valueWidth = (idealHeight>idealWidth ? idealWidth : idealHeight );
+    var gridWidth = Math.ceil(valueWidth*this.grid_width);
+
+    $('game').style.width  = gridWidth+"px";
+
     [].forEach.call(document.querySelectorAll(".grid-row > div"), function(el){
-        el.style.width = nbr + '%';
-        el.style.paddingTop = nbr + '%';
+        el.style.width = valueWidth + 'px';
+        el.style.paddingTop = valueWidth + 'px';
     });
 }
 
-
+Sokoban.prototype.roundWithTwoDecimal = function(result){
+    return Math.floor(result * 100) / 100;
+}
 
 
 Sokoban.prototype.render_grid_object = function(k)
 {
+
 
     if($(this.get_grid_id(k)).className.contains("floor")){
         var floor = "floor";
@@ -212,7 +230,11 @@ Sokoban.prototype.update_moves = function()
         //If game just start
     }
 
-    walk.play();
+    if(this.moves > 0){
+        walk.play();
+    }
+
+    
 
     this.moves++;
     //insert moves into consol
@@ -443,7 +465,10 @@ Sokoban.prototype.set_click_floor = function() {
     
     var allFloor = document.querySelectorAll(".floor");
 
-    for (var floorTile of allFloor) {
+    //array.forEach(function (value) {
+
+    [].forEach.call(allFloor, function(floorTile) {
+
         floorTile.addEventListener("mouseover", function(){
             var toGoId = this.getAttribute("id");
             var splitedId = toGoId.split("-");
@@ -470,16 +495,15 @@ Sokoban.prototype.set_click_floor = function() {
                         case 0:
                             //second value is about horizontal
                             switch(sb.path[pathIteration][1] - sb.path[pathIteration-1][1]){
-                                case 1: console.log("equal SD_LEFT"); direction = SD_RIGHT; break;
-                                case -1: console.log("equal SD_RIGHT"); direction = SD_LEFT; break;
+                                case 1: direction = SD_RIGHT; break;
+                                case -1: direction = SD_LEFT; break;
                             }
                             break;
-                        case 1: console.log("equal SD_BACKWARD"); direction = SD_BACKWARD; break;
-                        case -1: console.log("equal SD_FORWARD"); direction = SD_FORWARD; break;
+                        case 1: direction = SD_BACKWARD; break;
+                        case -1: direction = SD_FORWARD; break;
                     }
                     
                     sb.validate_move(direction);
-                    //console.log(direction);
                 }
                 pathIteration++;
             })
@@ -494,7 +518,7 @@ Sokoban.prototype.set_click_floor = function() {
             });
         });
 
-    }
+    })
     
 }
 
@@ -634,7 +658,7 @@ function skb() {
 
     $('maps').innerHTML = '<table cellspacing="1" cellpadding="0" border="0" id="elevator"><tr>'
         + tmp + (i + sb_maps.length ? '' : '</tr>') + '</table>';
-    
+
 }
 
 //Bind key events
