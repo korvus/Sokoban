@@ -234,11 +234,11 @@ Sokoban.prototype.unmap_grid = function()
 
     for (var k = 0; k < this.grid_size; k++) {
         switch(this.grid_code.substr(k, 1)) {
-            case 'X': this.grid[k] = SM_WALL; break;
-            case '0': this.grid[k] = SM_BOX; break;
-            case '1': this.grid[k] = SM_BOX | SM_BASE; this.base_count++; break;
-            case '#': this.grid[k] = SM_BASE; this.base_count++; break;
-            case 'F': this.init_player_location(k, SD_FORWARD); break;
+            case '#': this.grid[k] = SM_WALL; break;
+            case '$': this.grid[k] = SM_BOX; break;
+            case '*': this.grid[k] = SM_BOX | SM_BASE; this.base_count++; break;
+            case '.': this.grid[k] = SM_BASE; this.base_count++; break;
+            case '@': this.init_player_location(k, SD_FORWARD); break;
             case 'B': this.init_player_location(k, SD_BACKWARD); break;
             case 'L': this.init_player_location(k, SD_LEFT); break;
             case 'R': this.init_player_location(k, SD_RIGHT); break;
