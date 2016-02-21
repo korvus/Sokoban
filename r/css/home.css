@@ -1,0 +1,32 @@
+body, 
+html{height:100%;}
+
+body{background:url(i/home.png) no-repeat;background-size:100% auto;background-position:0 100%;}
+
+main{margin:0 auto;max-width:400px;}
+h1{text-align:center;margin:40px 0 0;}
+h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;}
+
+.animation{float:left;width:90px;height:90px;background-image:url(i/sprite.png);background-repeat:no-repeat;
+  background-position:0 -450px;
+}
+
+.perso{
+  animation-duration: 1s;
+  animation-name: push;
+  animation-timing-function:steps(1);
+  animation-iteration-count: infinite;
+}
+
+@keyframes push {
+  0%{   background-position:0 -450px;}
+  20%{  background-position:-90px -450px;  }
+  40%{  background-position:-180px -450px;  }
+  60%{ background-position: -270px -450px;  }
+  80%{ background-position: -360px -450px;  }
+  90%{ background-position: 0 -450px;  }
+}
+
+.character{width:184px;margin:0 auto;}
+
+.stone{background-position:-270px -90px;}

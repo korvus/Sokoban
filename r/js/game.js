@@ -656,9 +656,10 @@ function skb() {
         }
     }
 
+/*
     $('maps').innerHTML = '<table cellspacing="1" cellpadding="0" border="0" id="elevator"><tr>'
         + tmp + (i + sb_maps.length ? '' : '</tr>') + '</table>';
-
+*/
 }
 
 //Bind key events
