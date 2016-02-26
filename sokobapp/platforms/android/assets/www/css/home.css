@@ -4,7 +4,7 @@ html{height:100%;}
 body{background:url(i/home.png) no-repeat;background-size:100% auto;background-position:0 100%;}
 
 main{margin:0 auto;max-width:400px;}
-h1{text-align:center;margin:40px 0 0;}
+h1{text-align:center;padding:20px 0 0;}
 h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;}
 
 .animation{float:left;width:90px;height:90px;background-image:url(i/sprite.png);background-repeat:no-repeat;

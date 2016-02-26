@@ -1,6 +1,8 @@
 function fetchJSONFile(path, callback) {
     var httpRequest = new XMLHttpRequest();
+    httpRequest.overrideMimeType("application/json");
     httpRequest.onreadystatechange = function() {
+      ///application/json
         if (httpRequest.readyState === 4) {
             if (httpRequest.status === 200) {
                 var data = JSON.parse(httpRequest.responseText);
@@ -17,9 +19,9 @@ function getRandomArbitrary(min, max) {
 }
 
 function setRandomBG(){
-  fetchJSONFile('r/css/i/bg/bg.json', function(data){
+  fetchJSONFile('css/i/bg/bg.json', function(data){
     random = Math.round(getRandomArbitrary(0,parseInt(data.number)));
-    document.querySelector("html").style.backgroundImage = "url(r/css/i/bg/bg"+random+".png)";
+    document.querySelector("html").style.backgroundImage = "url(css/i/bg/bg"+random+".png)";
     //console.log(random);
   });
 }
