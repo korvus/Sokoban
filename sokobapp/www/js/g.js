@@ -22,11 +22,23 @@ function setRandomBG(){
   fetchJSONFile('css/i/bg/bg.json', function(data){
     random = Math.round(getRandomArbitrary(0,parseInt(data.number)));
     document.querySelector("html").style.backgroundImage = "url(css/i/bg/bg"+random+".png)";
-    //console.log(random);
   });
 }
 
 
+function displayWorld(e){
+  e.preventDefault();
+  changeH2("Choose a temple");
+  removeCharacter();
+  removeBT();
+  listWorld();
+}
+
+function btEvent(e){
+  document.querySelector(".bt").addEventListener("click", displayWorld);
+}
+
 document.addEventListener("DOMContentLoaded", function(){
   setRandomBG();
+  btEvent();
 });
