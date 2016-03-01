@@ -1,6 +1,5 @@
 //http://sneezingtiger.com/sokoban/levels/picokosmosText.html
 
-var sb_maps =
 [
 
 /*1*/'9|11|'+

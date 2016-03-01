@@ -2,9 +2,7 @@
 
 //=> http://sneezingtiger.com/sokoban/levels/microcosmosText.html
 
-var sb_maps =
 [
-
 
 /*1*/
 '9|7|'+

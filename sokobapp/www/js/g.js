@@ -14,6 +14,21 @@ function fetchJSONFile(path, callback) {
     httpRequest.send(); 
 }
 
+function fetchAnyFile(path, callback) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.overrideMimeType("text/javascript");
+    httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState === 4) {
+            if (httpRequest.status === 200) {
+                var data = httpRequest.responseText;
+                if (callback) callback(data);
+            }
+        }
+    };
+    httpRequest.open('GET', path);
+    httpRequest.send(); 
+}
+
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -25,14 +40,6 @@ function setRandomBG(){
   });
 }
 
-
-function displayWorld(e){
-  e.preventDefault();
-  changeH2("Choose a temple");
-  removeCharacter();
-  removeBT();
-  listWorld();
-}
 
 function btEvent(e){
   document.querySelector(".bt").addEventListener("click", displayWorld);
