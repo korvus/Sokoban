@@ -596,18 +596,22 @@ Sokoban.prototype.modify_coords = function(coords, direction)
 var sb = null;
 
 
-function load_map(n){
+function load_map(all_maps){
+
+    var lvl = 0;
+    lvl = localStorage.getItem("playLvl");
+    var sb_maps = all_maps;
 
     sb = new Sokoban();
 
-    sb.grid_data  = sb_maps[n].split("|");
+    sb.grid_data  = sb_maps[lvl].split("|");
     sb.grid_code = sb.grid_data[2];
 
     sb.grid_width  = sb.grid_data[0];
     sb.grid_height = sb.grid_data[1];
 
     sb.render_grid();
-    $('map').innerHTML = lpad(n + 1, 2);
+    $('map').innerHTML = lpad(lvl + 1, 2);
 
     sb.set_floor();
 }
@@ -642,12 +646,12 @@ function sokoban_move(e)
 }
 
 //initialisation
-function skb() {
+function skb(world) {
 
     //By default load the first map (0)
-    load_map(0);
+    load_map(world);
 
-    /*Array of levels*/
+    /*Array of levels
     for (var tmp = '', i = 0; i < sb_maps.length; i++) {
         tmp += '<td><span onclick="load_map( ' + i + ')" style="cursor: pointer; color: #0099CC;">' + lpad(i + 1, 2) + '</span></td>';
 
@@ -655,7 +659,7 @@ function skb() {
             tmp += '</tr>' + (i + 1 == sb_maps.length ? '' : '<tr>');
         }
     }
-
+*/
 /*
     $('maps').innerHTML = '<table cellspacing="1" cellpadding="0" border="0" id="elevator"><tr>'
         + tmp + (i + sb_maps.length ? '' : '</tr>') + '</table>';
@@ -671,6 +675,12 @@ function bindKeyEvent(){
 
 //Loading
 document.addEventListener("DOMContentLoaded", function(){
-    skb();
-    bindKeyEvent();
+    
+    var world = localStorage.getItem("playWorld");
+
+    fetchJSONFile('js/lvl/world-'+world+'.json', function(data){
+      skb(data);
+      bindKeyEvent();
+    })
+
 });

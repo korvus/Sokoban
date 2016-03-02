@@ -5,14 +5,27 @@ function listLvl(){
       }
   );
   var wichWorldToGet = localStorage.getItem("world");
-  fetchAnyFile('js/lvl/maps-'+wichWorldToGet+'.js', function(data){
-    var lvls = eval(data);
-    displayLvls(lvls);
+  fetchJSONFile('js/lvl/world-'+wichWorldToGet+'.json', function(data){
+    displayLvls(data, wichWorldToGet);
   });
-  //alert(wichWorldToGet);
+
 }
 
-function displayLvls(lvls){
+function setClickOnLvls(){
+  var lksToLvls = document.querySelectorAll("ul li a");
+  var c = 0;
+  for (c; c < lksToLvls.length; c++){
+    lksToLvls[c].addEventListener('click', function(e){
+      e.preventDefault();
+      localStorage.setItem("playWorld", this.dataset.world);
+      localStorage.setItem("playLvl", this.dataset.lvl);
+      document.location.href = "game.html";
+    });
+  }
+}
+
+
+function displayLvls(lvls, world){
   var nbLvls = lvls.length;
   var b = 0;
   var ul = document.querySelector('ul');
@@ -21,11 +34,23 @@ function displayLvls(lvls){
   for(b; b < nbLvls; b++){
     list[b] = document.createElement('li');
     links[b] = document.createElement('a');
-    text[b] = document.createTextNode("lvl "+(b+1));
+    links[b].dataset.world = world;
+    links[b].dataset.lvl = b;
+
+    var nbMv = localStorage.getItem("status-"+world+"-"+b);
+    if(!nbMv || nbMv == 0){
+      localStorage.setItem("status-"+world+"-"+b, 0);
+      list[b].setAttribute("class","uncompleted");
+    }else{
+      list[b].setAttribute("class","completed");
+    }
+
+    text[b] = document.createTextNode(b+1);
     links[b].appendChild(text[b]);
     list[b].appendChild(links[b]);
     ul.appendChild(list[b]);
   }
+  setClickOnLvls();
 }
 
 function initClickBtWorld(){
@@ -42,14 +67,12 @@ function initClickBtWorld(){
 }
 
 function getWorldInfos(a, d){
-
-  fetchAnyFile('js/lvl/maps-'+a+'.js', function(data){
-    var lvls = eval(data);
+  fetchJSONFile('js/lvl/world-'+a+'.json', function(data){
     elli = document.createElement('li');
     ela = document.createElement('a');
     ela.setAttribute('href', 'game.html');
     ela.setAttribute('data-href', a);
-    eltxt = document.createTextNode("hello "+lvls.length);
+    eltxt = document.createTextNode("hello "+data.length);
     ela.appendChild(eltxt);
     elli.appendChild(ela);
     d[0].appendChild(elli);
@@ -101,3 +124,7 @@ function displayWorld(e){
 function btEvent(e){
   document.querySelector(".bt").addEventListener("click", displayWorld);
 }
+
+document.addEventListener("DOMContentLoaded", function(){
+  btEvent();
+})

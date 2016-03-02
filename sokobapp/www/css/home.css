@@ -56,6 +56,9 @@ text-align:center;width:50%;display:block;font-size:5vw;text-decoration:none;mar
 /* List world */
 ul{padding:0;margin:0;}
 ul li{list-style:none;margin:0;padding:0;}
-ul li a{text-decoration:none;padding:5px 0;margin:5px 0;color:#fff;font-size:2vw;display:block;text-align:center;border:1px dotted #fff;}
+ul li a{text-decoration:none;padding:5px 0;margin:5px 0;color:#fff;font-size:2vw;display:block;text-align:center;border:1px dotted #fff;cursor:pointer;}
 ul.lvls li{box-sizing:border-box;float:left;width:25%;margin:10px 0;}
 ul.lvls li a{margin:0 10px;}
+ul.lvls li.completed{}
+ul.lvls li.completed a{color:#fff;}
+ul.lvls li.uncompleted a{background:#777;border:1px solid #444;color:#444;}
