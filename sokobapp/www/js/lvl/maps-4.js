@@ -2,7 +2,7 @@
 
 //=> http://sneezingtiger.com/sokoban/levels/microcosmosText.html
 
-[
+module.exports = [
 
 /*1*/
 '9|7|'+
@@ -472,4 +472,4 @@
 
 
 
-];
+]

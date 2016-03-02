@@ -1,6 +1,6 @@
 //http://sneezingtiger.com/sokoban/levels/picokosmosText.html
 
-[
+module.exports = [
 
 /*1*/'9|11|'+
 ' #####   '+
