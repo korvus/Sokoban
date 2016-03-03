@@ -121,7 +121,8 @@ body {
   justify-content: center;
   align-items: baseline;
   clear:both;
-  padding:0 0 5px 0;
+  height:80px;
+  padding:5px 0 5px 0;
   margin:5px auto 0;
   font-size: 2vw;
   text-align: center;
@@ -129,9 +130,13 @@ body {
 
 #info .block{
   text-shadow: 1px 1px 0 #bbb, -1px -1px 0 #000, 0 0 20px #333;
-  letter-spacing:0.5vw;
+  letter-spacing:0.1vw;
   margin:0 10px 0 0;
   color: #fff;
+}
+
+#info .block:first-child{
+  margin-right:20px;
 }
 
 #info .block span{
@@ -141,7 +146,12 @@ body {
 #info .block span,
 #info .block a{
   color: #555;
-  font-size: 2.5vw;
+  font-size: 2vw;
+}
+
+#info .infos,
+#info .infos span{
+  font-size:1.5vw;
 }
 
 
@@ -162,20 +172,16 @@ a kbd{
     text-align: right;
 }
 
-#info #map{font-size:4vw;margin:0 1vw 5% 0.5vw;}
-
-#elevator{
-    background-color: #CCC;
-    margin: 0 auto;
+#info .off{
+  mix-blend-mode: soft-light;
 }
 
-#elevator tr{
-    margin: 0;
-    background-color: #FFF;
+#info #map{font-size:2vw;margin:0 1vw 5% 0.5vw;}
+
+#undo{
+  background:url(i/undo.png) no-repeat 50% 100%;padding-bottom:45px;background-size:50px 50px;
 }
 
-#elevator td{
-    padding: 3px 6px;
+#restart{
+  background:url(i/restart.svg) no-repeat 50% 100%;padding-bottom:35px;background-size:30px 30px;
 }
-
-

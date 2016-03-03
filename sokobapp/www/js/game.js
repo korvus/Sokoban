@@ -137,7 +137,7 @@ Sokoban.prototype.render_grid_objects = function()
     var widthDevice = window.innerWidth;
     var marginWidth = (widthDevice*10)/100;
     var concreteWidth = widthDevice - marginWidth;
-    var boardHeight = heightDevice - 50;
+    var boardHeight = heightDevice - 110;
     var idealHeight = this.roundWithTwoDecimal(boardHeight/this.grid_height);
     var idealWidth = this.roundWithTwoDecimal(concreteWidth/this.grid_width);
     var nbr = 100/this.grid_width;
@@ -245,6 +245,10 @@ Sokoban.prototype.update_moves = function()
 Sokoban.prototype.update_pushes = function() {
     this.pushes++;
     //insert push into consol
+    if(this.pushes>0){
+        $('undo').classList.remove("off");
+        $('restart').classList.remove("off");
+    }
     $('pushes').innerHTML = lpad(this.pushes, 4);
 }
 
@@ -380,6 +384,11 @@ Sokoban.prototype.validate_move = function(direction){
 
 Sokoban.prototype.endLevel = function(){
     $("grid").className = "end";
+}
+
+Sokoban.prototype.restart_level = function(){
+    loadAll();
+    //alert("should restart");
 }
 
 Sokoban.prototype.undo_move = function(){
@@ -632,8 +641,15 @@ function sokoban_move(e)
         keynum = e.which;
     }
 
+    //Undo
     if (keynum == 85) {
         sb.undo_move();
+        return false;
+    }
+
+    //Restart
+    if (keynum == 82) {
+        sb.restart_level();
         return false;
     }
 
@@ -645,26 +661,6 @@ function sokoban_move(e)
     return true;
 }
 
-//initialisation
-function skb(world) {
-
-    //By default load the first map (0)
-    load_map(world);
-
-    /*Array of levels
-    for (var tmp = '', i = 0; i < sb_maps.length; i++) {
-        tmp += '<td><span onclick="load_map( ' + i + ')" style="cursor: pointer; color: #0099CC;">' + lpad(i + 1, 2) + '</span></td>';
-
-        if (i % 10 == 9) {
-            tmp += '</tr>' + (i + 1 == sb_maps.length ? '' : '<tr>');
-        }
-    }
-*/
-/*
-    $('maps').innerHTML = '<table cellspacing="1" cellpadding="0" border="0" id="elevator"><tr>'
-        + tmp + (i + sb_maps.length ? '' : '</tr>') + '</table>';
-*/
-}
 
 //Bind key events
 function bindKeyEvent(){
@@ -673,14 +669,32 @@ function bindKeyEvent(){
     };
 }
 
+function bindConsolEvent(){
+    $('restart').addEventListener('click', function(e){
+        sb.restart_level();
+    });
+
+    $('undo').addEventListener('click', function(e){
+        sb.undo_move();
+    });
+}
+
+function loadAll(){
+    var world = localStorage.getItem("playWorld");
+
+    $('restart').setAttribute("class","off");
+    $('undo').setAttribute("class","off");
+
+    fetchJSONFile('js/lvl/world-'+world+'.json', function(data){
+      load_map(data);
+      bindKeyEvent();
+      bindConsolEvent();
+    })
+}
+
 //Loading
 document.addEventListener("DOMContentLoaded", function(){
     
-    var world = localStorage.getItem("playWorld");
-
-    fetchJSONFile('js/lvl/world-'+world+'.json', function(data){
-      skb(data);
-      bindKeyEvent();
-    })
+    loadAll();
 
 });
