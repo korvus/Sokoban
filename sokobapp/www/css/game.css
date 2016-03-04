@@ -114,6 +114,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 102;
   color: #111;
   overflow:hidden;
   display:flex;
@@ -173,7 +174,7 @@ a kbd{
 }
 
 #info .off{
-  mix-blend-mode: soft-light;
+  opacity: 0.2;
 }
 
 #info #map{font-size:2vw;margin:0 1vw 5% 0.5vw;}
@@ -184,4 +185,10 @@ a kbd{
 
 #restart{
   background:url(i/restart.svg) no-repeat 50% 100%;padding-bottom:35px;background-size:30px 30px;
+}
+
+#map,
+#world{
+  cursor: pointer;
+  text-decoration: underline;
 }

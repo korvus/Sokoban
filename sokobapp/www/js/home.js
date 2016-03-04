@@ -1,4 +1,8 @@
 function listLvl(){
+  //Remove, if exists, all stuff on home by default
+  cleanHome();
+  //init main ul wrapper
+  createUl();
   [].forEach.call(
       document.querySelectorAll('ul li'),function (world){
           world.remove();
@@ -72,28 +76,31 @@ function getWorldInfos(a, d){
     ela = document.createElement('a');
     ela.setAttribute('href', 'game.html');
     ela.setAttribute('data-href', a);
-    eltxt = document.createTextNode("hello "+data.length);
+    eltxt = document.createTextNode("temple "+(a+1)+" ("+data.length+" floors)");
     ela.appendChild(eltxt);
     elli.appendChild(ela);
-    d[0].appendChild(elli);
-    if(a==d[1]-1){
+    document.querySelector("ul").appendChild(elli);
+    if(a==d-1){
       initClickBtWorld();
     }else{
+      console.log(a);
       getWorldInfos(a+1,d);
     }
   });
 }
 
+function createUl(){
+  var ulWrapper = document.createElement('ul');
+  var wrapper = document.querySelector('main');
+  wrapper.appendChild(ulWrapper);
+}
+
 function listWorld(){
   fetchJSONFile('js/lvl/all-levels.json', function(data){
-    var ulWrapper = document.createElement('ul');
-    var wrapper = document.querySelector('main');
-    wrapper.appendChild(ulWrapper);
-    var obj = [ulWrapper, data.number];
-    getWorldInfos(0, obj);
-/*    for(a=0;a<data.number;a++){
-      getInfos(a, obj);
-    }*/
+    createUl();
+    var ul = document.querySelector('ul');
+    ul.setAttribute("class","worlds");
+    getWorldInfos(0, data.number);
   });
 
 }
@@ -104,27 +111,59 @@ function changeH2(txt){
 }
 
 function removeCharacter(){
-  var character = document.querySelector(".character");
-  character.remove();
+  if(document.querySelector(".character")){
+    var character = document.querySelector(".character");
+    character.remove();
+  }
 }
 
 function removeBT(){
-  var bt = document.querySelector(".bt");
-  bt.remove();
+  if(document.querySelector(".bt")){
+    var bt = document.querySelector(".bt");
+    bt.remove();
+  }
 }
 
-function displayWorld(e){
-  e.preventDefault();
-  changeH2("Choose a temple");
-  removeCharacter();
-  removeBT();
+function removeLists(){
+  if(document.querySelector("ul")){
+    var list = document.querySelector("ul");
+    list.remove();
+  }  
+}
+
+function displayWorld(){
+  cleanHome();
   listWorld();
 }
 
+function eventDisplayWorld(e){
+  e.preventDefault();
+  displayWorld();
+}
+
 function btEvent(e){
-  document.querySelector(".bt").addEventListener("click", displayWorld);
+  document.querySelector(".bt").addEventListener("click", eventDisplayWorld);
+}
+
+//Function for remove all the stuffs on the homepage
+function cleanHome(){
+  removeLists();
+  changeH2("Choose a temple");
+  removeCharacter();
+  removeBT();
+}
+
+function ifSessionStorage(){
+  btEvent();
+  if(sessionStorage.getItem("wantToGo")){
+    if(sessionStorage.wantToGo === "lvls"){
+      listLvl();
+    }else if(sessionStorage.wantToGo === "world"){
+      displayWorld();
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-  btEvent();
+  ifSessionStorage();
 })

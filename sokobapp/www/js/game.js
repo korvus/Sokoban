@@ -38,6 +38,7 @@ var SD_BACKWARD = 0x02;
 var SD_LEFT     = 0x03;
 var SD_RIGHT    = 0x04;
 
+var world = localStorage.getItem("playWorld");
 
 function Sokoban(){
     this.end_game         = false;
@@ -234,10 +235,13 @@ Sokoban.prototype.update_moves = function()
         walk.play();
     }
 
-    
-
     this.moves++;
     //insert moves into consol
+    if(this.moves>0){
+        $('undo').classList.remove("off");
+        $('restart').classList.remove("off");
+    }
+
     $( 'moves' ).innerHTML = lpad(this.moves, 4);
 }
 
@@ -245,10 +249,6 @@ Sokoban.prototype.update_moves = function()
 Sokoban.prototype.update_pushes = function() {
     this.pushes++;
     //insert push into consol
-    if(this.pushes>0){
-        $('undo').classList.remove("off");
-        $('restart').classList.remove("off");
-    }
     $('pushes').innerHTML = lpad(this.pushes, 4);
 }
 
@@ -383,7 +383,8 @@ Sokoban.prototype.validate_move = function(direction){
 
 
 Sokoban.prototype.endLevel = function(){
-    $("grid").className = "end";
+    //$("grid").className = "end";
+    document.querySelector("html").className = "end";
 }
 
 Sokoban.prototype.restart_level = function(){
@@ -620,7 +621,8 @@ function load_map(all_maps){
     sb.grid_height = sb.grid_data[1];
 
     sb.render_grid();
-    $('map').innerHTML = lpad(lvl + 1, 2);
+    $('map').innerHTML = lpad((parseInt(lvl) + 1), 2);
+    $('world').innerHTML = lpad((parseInt(world) + 1), 2);
 
     sb.set_floor();
 }
@@ -677,10 +679,19 @@ function bindConsolEvent(){
     $('undo').addEventListener('click', function(e){
         sb.undo_move();
     });
+
+    $('map').addEventListener('click', function(e){
+        sessionStorage.setItem("wantToGo","lvls");
+        document.location ="index.html";
+    });
+
+    $('world').addEventListener('click', function(e){
+        sessionStorage.setItem("wantToGo","world");
+        document.location ="index.html";
+    });
 }
 
 function loadAll(){
-    var world = localStorage.getItem("playWorld");
 
     $('restart').setAttribute("class","off");
     $('undo').setAttribute("class","off");
