@@ -38,7 +38,10 @@ var SD_BACKWARD = 0x02;
 var SD_LEFT     = 0x03;
 var SD_RIGHT    = 0x04;
 
-var world = localStorage.getItem("playWorld");
+var world = 0;
+world = localStorage.getItem("playWorld");
+var lvl = 0;
+lvl = localStorage.getItem("playLvl");
 
 function Sokoban(){
     this.end_game         = false;
@@ -383,8 +386,8 @@ Sokoban.prototype.validate_move = function(direction){
 
 
 Sokoban.prototype.endLevel = function(){
-    //$("grid").className = "end";
     document.querySelector("html").className = "end";
+    localStorage.setItem("status-"+world+"-"+lvl, this.moves);
 }
 
 Sokoban.prototype.restart_level = function(){
@@ -608,8 +611,6 @@ var sb = null;
 
 function load_map(all_maps){
 
-    var lvl = 0;
-    lvl = localStorage.getItem("playLvl");
     var sb_maps = all_maps;
 
     sb = new Sokoban();

@@ -79,7 +79,13 @@ ul.lvls{margin-bottom:50px;overflow:hidden;}
 ul.lvls li{box-sizing:border-box;float:left;width:25%;margin:10px 0;}
 ul.lvls li a{margin:0 10px;}
 ul.lvls li.completed{}
-ul.lvls li.completed a{color:#fff;}
+ul.lvls li.completed a{
+  text-shadow:0 0 1px #e51d2d, 0 -1px 2px #f8b696;
+  color:#ec0010;
+  border-style: solid;
+  border-width: 16px 15px 18px 16px;
+  border-image: url(i/border-based.png) 16 15 18 16 fill repeat;
+}
 ul.lvls li.uncompleted a{
   text-shadow:0 0 1px #fff, 0 -1px 2px #555;
   color:#4f4f4f;
@@ -87,3 +93,11 @@ ul.lvls li.uncompleted a{
   border-width: 16px 15px 18px 16px;
   border-image: url(i/borders.png) 16 15 18 16 fill repeat;
 }
+ul.lvls li.uncompleted a:hover,
+ul.lvls li.uncompleted a:focus{
+  color:#222;
+  border-image: url(i/borders-focus.png) 16 15 18 16 fill repeat;
+}
+
+
+

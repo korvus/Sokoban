@@ -141,7 +141,7 @@ function eventDisplayWorld(e){
   displayWorld();
 }
 
-function btEvent(e){
+function btEvent(){
   document.querySelector(".bt").addEventListener("click", eventDisplayWorld);
 }
 
@@ -153,14 +153,55 @@ function cleanHome(){
   removeBT();
 }
 
-function ifSessionStorage(){
+function entryGame(){
+  var wrapper = document.querySelector('main');
+  elCharachter = document.createElement('div');
+  elCharachter.className = "character";
+  elPerso = document.createElement('div');
+  elPerso.classList.add("perso","animation");
+  elStone = document.createElement('div');
+  elStone.classList.add("stone","animation");
+  elCharachter.appendChild(elPerso);
+  elCharachter.appendChild(elStone);
+  //Append the character first
+  wrapper.appendChild(elCharachter);
+
+  elBt = document.createElement('a');
+  elBt.className = "bt";
+  elBt.setAttribute("href","game.html");
+  elBt.setAttribute("title","Go for a run!");
+  elBt.textContent = "Play";
+  wrapper.appendChild(elBt);
+  /*
+  ela = document.createElement('a');
+  ela.setAttribute('href', 'game.html');
+  ela.setAttribute('data-href', a);
+  eltxt = document.createTextNode("temple "+(a+1)+" ("+data.length+" floors)");
+  ela.appendChild(eltxt);
+  elli.appendChild(ela);
+  */
+  /*
+  <div class="character">
+    <div class="animation perso"></div>
+    <div class="animation stone"></div>
+  </div>
+
+  <a class="bt" href="chooseWorld.html" title="go for a run!">
+    Play
+  </a>
+  */
   btEvent();
+}
+
+function ifSessionStorage(){
   if(sessionStorage.getItem("wantToGo")){
     if(sessionStorage.wantToGo === "lvls"){
       listLvl();
     }else if(sessionStorage.wantToGo === "world"){
       displayWorld();
     }
+  }else{
+    entryGame();
   }
 }
 

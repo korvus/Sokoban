@@ -26,11 +26,6 @@ function setRandomBG(){
   });
 }
 
-
-function btEvent(e){
-  document.querySelector(".bt").addEventListener("click", displayWorld);
-}
-
 document.addEventListener("DOMContentLoaded", function(){
   setRandomBG();
 });
