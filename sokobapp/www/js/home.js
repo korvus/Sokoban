@@ -30,6 +30,7 @@ function setClickOnLvls(){
 
 
 function displayLvls(lvls, world){
+  window.location = "#levels";
   var nbLvls = lvls.length;
   var b = 0;
   var ul = document.querySelector('ul');
@@ -46,7 +47,11 @@ function displayLvls(lvls, world){
       localStorage.setItem("status-"+world+"-"+b, 0);
       list[b].setAttribute("class","uncompleted");
     }else{
+      var moves = document.createElement("span");
+      var hm = document.createTextNode(nbMv+" moves");
+      moves.appendChild(hm);
       list[b].setAttribute("class","completed");
+      list[b].appendChild(moves);
     }
 
     text[b] = document.createTextNode(b+1);
@@ -55,6 +60,7 @@ function displayLvls(lvls, world){
     ul.appendChild(list[b]);
   }
   setClickOnLvls();
+  setConsole();
 }
 
 function initClickBtWorld(){
@@ -119,8 +125,7 @@ function removeCharacter(){
 
 function removeBT(){
   if(document.querySelector(".bt")){
-    var bt = document.querySelector(".bt");
-    bt.remove();
+    document.querySelector(".bt").remove();
   }
 }
 
@@ -133,7 +138,9 @@ function removeLists(){
 
 function displayWorld(){
   cleanHome();
+  window.location = "#temple";
   listWorld();
+  setConsole();
 }
 
 function eventDisplayWorld(e){
@@ -145,15 +152,29 @@ function btEvent(){
   document.querySelector(".bt").addEventListener("click", eventDisplayWorld);
 }
 
+function removeConsol(){
+  if(document.querySelector(".consol")){
+    document.querySelector(".consol").remove();
+  }
+}
+
 //Function for remove all the stuffs on the homepage
 function cleanHome(){
   removeLists();
+  removeConsol();
   changeH2("Choose a temple");
   removeCharacter();
   removeBT();
 }
 
+function setConsole(){
+  elConsole = document.createElement('div');
+  elConsole.classList.add("consol");
+  document.body.appendChild(elConsole);
+}
+
 function entryGame(){
+  window.location = "#home";
   var wrapper = document.querySelector('main');
   elCharachter = document.createElement('div');
   elCharachter.className = "character";
@@ -172,24 +193,7 @@ function entryGame(){
   elBt.setAttribute("title","Go for a run!");
   elBt.textContent = "Play";
   wrapper.appendChild(elBt);
-  /*
-  ela = document.createElement('a');
-  ela.setAttribute('href', 'game.html');
-  ela.setAttribute('data-href', a);
-  eltxt = document.createTextNode("temple "+(a+1)+" ("+data.length+" floors)");
-  ela.appendChild(eltxt);
-  elli.appendChild(ela);
-  */
-  /*
-  <div class="character">
-    <div class="animation perso"></div>
-    <div class="animation stone"></div>
-  </div>
 
-  <a class="bt" href="chooseWorld.html" title="go for a run!">
-    Play
-  </a>
-  */
   btEvent();
 }
 

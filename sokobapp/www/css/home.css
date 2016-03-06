@@ -56,7 +56,7 @@ text-align:center;width:50%;display:block;font-size:5vw;text-decoration:none;mar
 }
 
 /* List world */
-ul{padding:0;margin:0;}
+ul{padding:0;margin:0 0 90px 0;overflow:hidden;}
 ul li{list-style:none;margin:0;padding:0;}
 ul li a{text-decoration:none;padding:0 11px 11px 0;margin:5px 0;color:#fff;font-size:2.5vw;display:block;text-align:center;border:1px dotted #fff;cursor:pointer;}
 
@@ -68,6 +68,8 @@ ul.worlds li a{
   border-image: url(i/borders.png) 16 15 18 16 fill repeat;
 }
 
+
+
 ul.worlds li a:hover, 
 ul.worlds li a:focus{
   color:#222;
@@ -75,10 +77,9 @@ ul.worlds li a:focus{
 }
 
 
-ul.lvls{margin-bottom:50px;overflow:hidden;}
 ul.lvls li{box-sizing:border-box;float:left;width:25%;margin:10px 0;}
 ul.lvls li a{margin:0 10px;}
-ul.lvls li.completed{}
+ul.lvls li.completed{position:relative;}
 ul.lvls li.completed a{
   text-shadow:0 0 1px #e51d2d, 0 -1px 2px #f8b696;
   color:#ec0010;
@@ -93,6 +94,10 @@ ul.lvls li.uncompleted a{
   border-width: 16px 15px 18px 16px;
   border-image: url(i/borders.png) 16 15 18 16 fill repeat;
 }
+
+ul.lvls span{position:absolute;bottom:7px;right:28px;padding:2px;border:1px solid #fff;display:block;
+  background:#563F25;color:#fff;font-family:Arial;font-size:11px;box-shadow:0 0 5px #000;}
+
 ul.lvls li.uncompleted a:hover,
 ul.lvls li.uncompleted a:focus{
   color:#222;
@@ -100,4 +105,23 @@ ul.lvls li.uncompleted a:focus{
 }
 
 
-
+.consol{
+  position: absolute;
+  background: rgba(250,250,250,0.5);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 102;
+  color: #111;
+  overflow:hidden;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  clear:both;
+  height:80px;
+  padding:5px 0 5px 0;
+  margin:5px auto 0;
+  font-size: 2vw;
+  text-align: center;
+}

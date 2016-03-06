@@ -387,12 +387,16 @@ Sokoban.prototype.validate_move = function(direction){
 
 Sokoban.prototype.endLevel = function(){
     document.querySelector("html").className = "end";
-    localStorage.setItem("status-"+world+"-"+lvl, this.moves);
+    var current = localStorage.getItem("status-"+world+"-"+lvl);
+    current = parseInt(current);
+    if(current===0 || current>this.moves){
+        localStorage.setItem("status-"+world+"-"+lvl, this.moves);
+    }
 }
 
 Sokoban.prototype.restart_level = function(){
+    $("grid").remove();
     loadAll();
-    //alert("should restart");
 }
 
 Sokoban.prototype.undo_move = function(){
@@ -683,13 +687,21 @@ function bindConsolEvent(){
 
     $('map').addEventListener('click', function(e){
         sessionStorage.setItem("wantToGo","lvls");
-        document.location ="index.html";
+        document.location ="index.html#levels";
     });
 
     $('world').addEventListener('click', function(e){
         sessionStorage.setItem("wantToGo","world");
-        document.location ="index.html";
+        document.location ="index.html#temple";
     });
+
+    var nbMv = localStorage.getItem("status-"+world+"-"+lvl);
+    if(nbMv && nbMv > 0){
+      var best = document.createTextNode(nbMv);
+      $("best").appendChild(best);
+      document.querySelector(".best").classList.remove("hide");
+    }
+
 }
 
 function loadAll(){
