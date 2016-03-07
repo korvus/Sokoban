@@ -125,3 +125,7 @@ ul.lvls li.uncompleted a:focus{
   font-size: 2vw;
   text-align: center;
 }
+
+.consol .block{
+  cursor:pointer;
+}

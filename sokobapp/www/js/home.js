@@ -1,3 +1,5 @@
+//https://github.com/straker/css-style-guide-audit < to test
+
 function listLvl(){
   //Remove, if exists, all stuff on home by default
   cleanHome();
@@ -89,7 +91,6 @@ function getWorldInfos(a, d){
     if(a==d-1){
       initClickBtWorld();
     }else{
-      console.log(a);
       getWorldInfos(a+1,d);
     }
   });
@@ -167,10 +168,51 @@ function cleanHome(){
   removeBT();
 }
 
+function initClickConsoleEvent(){
+  var homePagelk = document.querySelector(".block.home");
+  homePagelk.addEventListener('click', function(e){
+    e.preventDefault();
+    cleanHome();
+    sessionStorage.setItem("wantToGo","home");
+    document.location.href = "index.html";
+  });
+
+  var homePagelk = document.querySelector(".block.worlds");
+  homePagelk.addEventListener('click', function(e){
+    e.preventDefault();
+    cleanHome();
+    sessionStorage.setItem("wantToGo","world");
+    document.location.href = "index.html#temple";
+    displayWorld();
+  });
+}
+
 function setConsole(){
-  elConsole = document.createElement('div');
+  var elConsole = document.createElement('section');
   elConsole.classList.add("consol");
+
+  var elHomect = document.createTextNode("Home");
+  var elHome = document.createElement('span');
+  elHome.appendChild(elHomect);
+  elHome.classList.add("home", "block");
+
+  var elWorldct = document.createTextNode("Temples");
+  var elWorld = document.createElement('span');
+  elWorld.appendChild(elWorldct);
+  elWorld.classList.add("worlds", "block");
+
+  var elSettingsct = document.createTextNode("About / Settings");
+  var elSettings = document.createElement('span');
+  elSettings.appendChild(elSettingsct);
+  elSettings.classList.add("settings", "block");
+
+  elConsole.appendChild(elHome);
+  elConsole.appendChild(elWorld);
+  elConsole.appendChild(elSettings);
+
   document.body.appendChild(elConsole);
+
+  initClickConsoleEvent();
 }
 
 function entryGame(){
@@ -197,15 +239,31 @@ function entryGame(){
   btEvent();
 }
 
+
 function ifSessionStorage(){
   if(sessionStorage.getItem("wantToGo")){
+    
     if(sessionStorage.wantToGo === "lvls"){
       listLvl();
     }else if(sessionStorage.wantToGo === "world"){
       displayWorld();
+    }else if(sessionStorage.wantToGo === "home"){
+      entryGame();
     }
+
   }else{
-    entryGame();
+
+    //if there is no directive with session storage
+    var anchor = getAnchor();
+    if(anchor == "levels"){
+      listLvl();
+    }else if(anchor == "temple"){
+      displayWorld();
+    }else{
+      //without any indication, root to the home by default
+      entryGame();
+    }
+
   }
 }
 

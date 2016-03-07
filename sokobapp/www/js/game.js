@@ -686,12 +686,12 @@ function bindConsolEvent(){
     });
 
     $('map').addEventListener('click', function(e){
-        sessionStorage.setItem("wantToGo","lvls");
+        //sessionStorage.setItem("wantToGo","lvls");
         document.location ="index.html#levels";
     });
 
     $('world').addEventListener('click', function(e){
-        sessionStorage.setItem("wantToGo","world");
+        //sessionStorage.setItem("wantToGo","world");
         document.location ="index.html#temple";
     });
 

@@ -14,6 +14,11 @@ function fetchJSONFile(path, callback) {
     httpRequest.send(); 
 }
 
+function getAnchor(){
+  var crossed = window.location.hash;
+  var hash = crossed != -1 ? crossed.substring(1) : "";
+  return hash;
+}
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
