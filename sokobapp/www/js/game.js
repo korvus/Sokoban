@@ -47,6 +47,7 @@ var toGoId = "grid-0-0";
 
 //If displaying A*
 var aStar = 0;
+var humanMove = 1;
 
 function Sokoban(){
     this.end_game         = false;
@@ -130,15 +131,15 @@ Sokoban.prototype.reinitGame = function(){
 Sokoban.prototype.render_grid_objects = function()
 {
     for (var k = 0; k < this.grid_size; k++) {
-        try {
+        //try {
             this.render_grid_object(k);
-        }
-        
+        //}
+        /*
         catch(e) {
             console.log(k + '\n' + this.get_grid_id(k) + '\n' + e);
             break;
         }
-        
+        */
     }
 
     //Once all cases calculated
@@ -169,7 +170,7 @@ Sokoban.prototype.roundWithTwoDecimal = function(result){
 
 Sokoban.prototype.render_grid_object = function(k) {
 
-    if($(this.get_grid_id(k)).className.contains("floor")) {
+    if($(this.get_grid_id(k)).classList.contains("floor")) {
         var floor = "floor";
     }else{
         var floor = "";
@@ -363,7 +364,9 @@ Sokoban.prototype.validate_move = function(direction){
             this.undo_strate[this.moves-1] = undo;
         }
 
-        movePath();
+        if(humanMove === 1){
+            movePath();
+        }
         
     } else {
         //If no move (player locked by wall for an example)
@@ -391,12 +394,19 @@ Sokoban.prototype.validate_move = function(direction){
 
 
 Sokoban.prototype.endLevel = function(){
+    //give class end to html
     document.querySelector("html").className = "end";
     var current = localStorage.getItem("status-"+world+"-"+lvl);
     current = parseInt(current);
+    //Save the moves if better than previous
     if(current===0 || current>this.moves){
         localStorage.setItem("status-"+world+"-"+lvl, this.moves);
     }
+
+    $("popin").classList.remove("hide");
+    $("popin").classList.add("deploy");
+
+
 }
 
 Sokoban.prototype.restart_level = function(){
@@ -499,8 +509,6 @@ function movePath(){
         toGoId = this.getAttribute("id");
     }
 
-    //console.log("should update "+toGoId);
-
     var splitedId = toGoId.split("-");
     var coordEnd = [parseInt(splitedId[1]), parseInt(splitedId[2])];
 
@@ -517,23 +525,13 @@ function movePath(){
 }
 
 function actionMovePath(){
-
-    console.log(sb.path);
-
+    humanMove = 0;
     var pathIteration = 0;
     var direction = SD_FORWARD;
     sb.path.forEach(function(tile){
         if(pathIteration>0){
-            
-            //first value is about vertical
-            console.log(pathIteration+" > sb.path["+pathIteration+"][0] : "+sb.path[pathIteration][0]);
-            console.log(pathIteration+" > sb.path["+pathIteration+"-1][0] : "+ sb.path[pathIteration-1][0]);
-            console.log(sb.path[pathIteration][0] - sb.path[pathIteration-1][0]);
             switch(sb.path[pathIteration][0] - sb.path[pathIteration-1][0]){
                 case 0:
-                    console.log(pathIteration+" > sb.path["+pathIteration+"][1] : "+sb.path[pathIteration][1]);
-                    console.log(pathIteration+" > sb.path["+pathIteration+"-1][1] : "+ sb.path[pathIteration-1][1]);
-                    console.log(sb.path[pathIteration][1] - sb.path[pathIteration-1][1]);
                     switch(sb.path[pathIteration][1] - sb.path[pathIteration-1][1]){
                         case 1: direction = SD_RIGHT; break;
                         case -1: direction = SD_LEFT; break;
@@ -546,7 +544,7 @@ function actionMovePath(){
         }
         pathIteration++;
     })
-
+    humanMove = 1;
     //sb.validate_move(SD_FORWARD)
 }
 
@@ -564,11 +562,6 @@ Sokoban.prototype.set_click_floor = function() {
     //array.forEach(function (value) {
 
     [].forEach.call(allFloor, function(floorTile) {
-
-        /*
-        floorTile.removeEventListener("mouseover", movePath);
-        floorTile.removeEventListener("mousedown", actionMovePath);
-        */
 
         floorTile.addEventListener("mouseover", movePath);
         floorTile.addEventListener("mousedown", actionMovePath)

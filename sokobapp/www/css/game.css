@@ -4,8 +4,6 @@ body {
   min-height: 100%;
 }
 
-.hide{display:none;}
-
 #game{
   margin: 0 auto;
   height:calc(100% - 88px);
