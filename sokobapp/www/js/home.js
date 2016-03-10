@@ -231,7 +231,7 @@ function entryGame(){
 
   elBt = document.createElement('a');
   elBt.className = "bt";
-  elBt.setAttribute("href","game.html");
+  elBt.setAttribute("href","#temple");
   elBt.setAttribute("title","Go for a run!");
   elBt.textContent = "Play";
   wrapper.appendChild(elBt);

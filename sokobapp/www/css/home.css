@@ -127,5 +127,35 @@ ul.lvls li.uncompleted a:focus{
 }
 
 .consol .block{
+  transition: 0.2s ease all;
   cursor:pointer;
+  margin-right: 20px;
+  text-decoration: underline;
+}
+
+.consol .worlds,
+.consol .home,
+.consol .settings{
+  padding-bottom: 35px;
+  font-size: 2vw;
+}
+
+.consol .home{
+  background: url(i/maison.svg) no-repeat 50% 100%;
+  background-size: 30px 30px;
+}
+
+.consol .worlds{
+  background: url(i/temple.svg) no-repeat 50% 100%;
+  background-size: 30px 30px;
+}
+
+.consol .settings{
+  background: url(i/gear.svg) no-repeat 50% 100%;
+  background-size: 30px 30px;
+}
+
+.consol .block:hover,
+.consol .block:focus{
+  text-shadow:0 0 1px #fff, 2px -1px 4px #939;
 }

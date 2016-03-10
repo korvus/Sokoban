@@ -17,8 +17,7 @@ setvolumeOfAlltracks(1);
 
 
 
-function lpad(n, z)
-{
+function lpad(n, z){
     for (var str = '' + n, i = str.length; i < z; i++) {
         str = '0' + str;
     }
@@ -42,6 +41,12 @@ var world = 0;
 world = localStorage.getItem("playWorld");
 var lvl = 0;
 lvl = localStorage.getItem("playLvl");
+
+//Coord for displaying A*
+var toGoId = "grid-0-0";
+
+//If displaying A*
+var aStar = 0;
 
 function Sokoban(){
     this.end_game         = false;
@@ -162,17 +167,17 @@ Sokoban.prototype.roundWithTwoDecimal = function(result){
 }
 
 
-Sokoban.prototype.render_grid_object = function(k)
-{
+Sokoban.prototype.render_grid_object = function(k) {
 
-
-    if($(this.get_grid_id(k)).className.contains("floor")){
+    if($(this.get_grid_id(k)).className.contains("floor")) {
         var floor = "floor";
     }else{
         var floor = "";
     }
 
     if (this.grid[k] & SM_PLAYER) {
+
+        //var toGoId = this.get_grid_id(k);
 
         var pushingClass = this.action_push === 1 ? "pushing-"+(this.moves%3) : "walking-"+(this.moves%3);
 
@@ -358,9 +363,9 @@ Sokoban.prototype.validate_move = function(direction){
             this.undo_strate[this.moves-1] = undo;
         }
 
+        movePath();
         
-    }
-    else {
+    } else {
         //If no move (player locked by wall for an example)
         this.render_grid_object(k);
     }
@@ -406,12 +411,9 @@ Sokoban.prototype.undo_move = function(){
         return;
     }
 
-    if (this.undo_strate[this.moves-1][2] != null) {
-        this.player_direction = this.undo_strate[this.moves-1][2];
-    }
-
     //second array inside undo object is the box position
     if (this.undo_strate[this.moves-1][1] != null) {
+        this.action_push = 1;
         var m = this.undo_strate[this.moves-1][1][0],
             p = this.undo_strate[this.moves-1][1][1];
 
@@ -419,6 +421,12 @@ Sokoban.prototype.undo_move = function(){
         this.grid[p] ^= SM_BOX;
         this.render_grid_object(m);
         this.render_grid_object(p);
+    }else{
+        this.action_push = 0;
+    }
+
+    if (this.undo_strate[this.moves-1][2] != null) {
+        this.player_direction = this.undo_strate[this.moves-1][2];
     }
 
     //first array inside undo object is the player position
@@ -478,6 +486,77 @@ Sokoban.prototype.map_tmp_walkable_array = function(){
  }
 
 
+
+function movePath(){
+
+    [].forEach.call(document.querySelectorAll(".walkable"), function(el){
+        el.classList.remove("walkable");
+    });
+
+    //console.log(this);
+    if(this.getAttribute){
+        aStar = 1;
+        toGoId = this.getAttribute("id");
+    }
+
+    //console.log("should update "+toGoId);
+
+    var splitedId = toGoId.split("-");
+    var coordEnd = [parseInt(splitedId[1]), parseInt(splitedId[2])];
+
+    var start = sb.map_tmp_walkable_array();
+
+    sb.path = findPath(sb.walkable_zone,start,coordEnd);
+
+    if(aStar){
+        sb.path.forEach(function(tile){
+            $("grid-"+tile[0]+"-"+tile[1]).classList.add("walkable");
+        })
+    }
+
+}
+
+function actionMovePath(){
+
+    console.log(sb.path);
+
+    var pathIteration = 0;
+    var direction = SD_FORWARD;
+    sb.path.forEach(function(tile){
+        if(pathIteration>0){
+            
+            //first value is about vertical
+            console.log(pathIteration+" > sb.path["+pathIteration+"][0] : "+sb.path[pathIteration][0]);
+            console.log(pathIteration+" > sb.path["+pathIteration+"-1][0] : "+ sb.path[pathIteration-1][0]);
+            console.log(sb.path[pathIteration][0] - sb.path[pathIteration-1][0]);
+            switch(sb.path[pathIteration][0] - sb.path[pathIteration-1][0]){
+                case 0:
+                    console.log(pathIteration+" > sb.path["+pathIteration+"][1] : "+sb.path[pathIteration][1]);
+                    console.log(pathIteration+" > sb.path["+pathIteration+"-1][1] : "+ sb.path[pathIteration-1][1]);
+                    console.log(sb.path[pathIteration][1] - sb.path[pathIteration-1][1]);
+                    switch(sb.path[pathIteration][1] - sb.path[pathIteration-1][1]){
+                        case 1: direction = SD_RIGHT; break;
+                        case -1: direction = SD_LEFT; break;
+                    }
+                    break;
+                case 1: direction = SD_BACKWARD; break;
+                case -1: direction = SD_FORWARD; break;
+            }
+            sb.validate_move(direction);
+        }
+        pathIteration++;
+    })
+
+    //sb.validate_move(SD_FORWARD)
+}
+
+function removeWalkableClass(){
+    aStar = 0;
+    [].forEach.call(document.querySelectorAll(".walkable"), function(el){
+        el.classList.remove("walkable");
+    });
+}
+
 Sokoban.prototype.set_click_floor = function() {
     
     var allFloor = document.querySelectorAll(".floor");
@@ -486,54 +565,14 @@ Sokoban.prototype.set_click_floor = function() {
 
     [].forEach.call(allFloor, function(floorTile) {
 
-        floorTile.addEventListener("mouseover", function(){
-            var toGoId = this.getAttribute("id");
-            var splitedId = toGoId.split("-");
-            var coordEnd = [parseInt(splitedId[1]), parseInt(splitedId[2])];
+        /*
+        floorTile.removeEventListener("mouseover", movePath);
+        floorTile.removeEventListener("mousedown", actionMovePath);
+        */
 
-            var start = sb.map_tmp_walkable_array();
-
-            sb.path = findPath(sb.walkable_zone,start,coordEnd);
-
-            sb.path.forEach(function(tile){
-                $("grid-"+tile[0]+"-"+tile[1]).classList.add("walkable");
-            })       
-
-        });
-
-        floorTile.addEventListener("mousedown", function(){
-            var pathIteration = 0;
-            var direction = SD_FORWARD;
-            sb.path.forEach(function(tile){
-                if(pathIteration>0){
-                    
-                    //first value is about vertical
-                    switch(sb.path[pathIteration][0] - sb.path[pathIteration-1][0]){
-                        case 0:
-                            //second value is about horizontal
-                            switch(sb.path[pathIteration][1] - sb.path[pathIteration-1][1]){
-                                case 1: direction = SD_RIGHT; break;
-                                case -1: direction = SD_LEFT; break;
-                            }
-                            break;
-                        case 1: direction = SD_BACKWARD; break;
-                        case -1: direction = SD_FORWARD; break;
-                    }
-                    
-                    sb.validate_move(direction);
-                }
-                pathIteration++;
-            })
-
-            //sb.validate_move(SD_FORWARD)
-
-        })
-
-        floorTile.addEventListener("mouseout", function(){
-            [].forEach.call(document.querySelectorAll(".walkable"), function(el){
-                el.classList.remove("walkable");
-            });
-        });
+        floorTile.addEventListener("mouseover", movePath);
+        floorTile.addEventListener("mousedown", actionMovePath)
+        floorTile.addEventListener("mouseout", removeWalkableClass);
 
     })
     
@@ -594,6 +633,7 @@ Sokoban.prototype.set_virtual_array = function(){
 Sokoban.prototype.set_floor = function(){
     var hero = sb.set_virtual_array();
     sb.get_tiles_floor(hero);
+    //movePath();
     sb.set_click_floor();
 }
 
