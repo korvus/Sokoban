@@ -1,33 +1,52 @@
 /* End of the game */
 
+/*html.end{background:#333 !important;}*/
 
-#grid.end .wall,
-#grid.end .floor{background-color:#000;background-image:none;}
+.end #grid .wall,
+.end #grid .floor{background-color:#000;background-image:none;}
 
+.end #grid .wall .wall{}
+.end #grid .bwd{background-image:  url(i/backward.png);}
+.end #grid .right{background-image:url(i/chrright.png);}
+.end #grid .left{background-image: url(i/chrleft.png);}
+.end #grid .fwd{background-image:  url(i/forward.png);}
+.end #grid .stone{background-image:url(i/stone.png);}
+.end #grid .base{background-image: url(i/base.png);}
+.end #grid .based{background-image:url(i/based.png);z-index:102;}
 
-#grid.end .wall .wall{top:0;left:0;}
-#grid.end .bwd{background-image:  url(i/backward.png);background-color:#000;}
-#grid.end .right{background-image:url(i/chrright.png);background-color:#000;}
-#grid.end .left{background-image: url(i/chrleft.png);background-color:#000;}
-#grid.end .fwd{background-image:  url(i/forward.png);background-color:#000;}
-#grid.end .stone{background-image:url(i/stone.png);background-color:#000;}
-#grid.end .base{background-image: url(i/base.png);background-color:#000;}
-#grid.end .based{background-image:url(i/based.png);background-color:#000;}
+.end #grid .walkable{cursor:default;}
+.end #grid .walkable:before{background:transparent;cursor:default;}
 
-#grid.end .walkable{cursor:default;}
-#grid.end .walkable:before{background:transparent;cursor:default;}
+.end #grid .pushing-0.fwd{background-image:url(i/push-top-0.png);}
+.end #grid .pushing-0.left{background-image:url(i/push-left-0.png);}
+.end #grid .pushing-0.right{background-image:url(i/push-right-0.png);}
+.end #grid .pushing-0.bwd{background-image:url(i/push-bottom-0.png);}
 
-#grid.end .pushing-0.fwd{background-image:url(i/push-top-0.png);background-color:#000;}
-#grid.end .pushing-0.left{background-image:url(i/push-left-0.png);background-color:#000;}
-#grid.end .pushing-0.right{background-image:url(i/push-right-0.png);background-color:#000;}
-#grid.end .pushing-0.bwd{background-image:url(i/push-bottom-0.png);background-color:#000;}
+.end #grid .pushing-1.fwd{background-image:url(i/push-top-1.png);}
+.end #grid .pushing-1.left{background-image:url(i/push-left-1.png);}
+.end #grid .pushing-1.right{background-image:url(i/push-right-1.png);}
+.end #grid .pushing-1.bwd{background-image:url(i/push-bottom-1.png);}
 
-#grid.end .pushing-1.fwd{background-image:url(i/push-top-1.png);background-color:#000;}
-#grid.end .pushing-1.left{background-image:url(i/push-left-1.png);background-color:#000;}
-#grid.end .pushing-1.right{background-image:url(i/push-right-1.png);background-color:#000;}
-#grid.end .pushing-1.bwd{background-image:url(i/push-bottom-1.png);background-color:#000;}
+.end #grid .pushing-2.fwd{background-image:url(i/push-top-2.png);}
+.end #grid .pushing-2.left{background-image:url(i/push-left-2.png);}
+.end #grid .pushing-2.right{background-image:url(i/push-right-2.png);}
+.end #grid .pushing-2.bwd{background-image:url(i/push-bottom-2.png);}
 
-#grid.end .pushing-2.fwd{background-image:url(i/push-top-2.png);background-color:#000;}
-#grid.end .pushing-2.left{background-image:url(i/push-left-2.png);background-color:#000;}
-#grid.end .pushing-2.right{background-image:url(i/push-right-2.png);background-color:#000;}
-#grid.end .pushing-2.bwd{background-image:url(i/push-bottom-2.png);background-color:#000;}
+.end #grid .pushing-0.fwd,
+.end #grid .pushing-0.left,
+.end #grid .pushing-0.right,
+.end #grid .pushing-0.bwd,
+.end #grid .pushing-1.fwd,
+.end #grid .pushing-1.left,
+.end #grid .pushing-1.right,
+.end #grid .pushing-1.bwd,
+.end #grid .pushing-2.fwd,
+.end #grid .pushing-2.left,
+.end #grid .pushing-2.right,
+.end #grid .pushing-2.bwd{z-index:101;}
+
+.end div[class*="pushing"]{top:0;left:0;
+  background-color:#000;
+  transition-property: box-shadow;
+  transition-duration: 1s;
+  box-shadow:0 0 200px 1000px #000;}

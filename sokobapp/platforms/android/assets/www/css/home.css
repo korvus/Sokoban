@@ -1,11 +1,12 @@
+
 body, 
-html{height:100%;}
+html{min-height:100%;}
 
-body{background:url(i/home.png) no-repeat;background-size:100% auto;background-position:0 100%;}
+body{background:url(i/home.png) no-repeat;background-size:100% auto;background-position:0 100%;overflow:auto;}
 
-main{margin:0 auto;max-width:400px;}
-h1{text-align:center;padding:20px 0 0;}
-h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;}
+main{margin:0 auto;max-width:400px;overflow:hidden;}
+h1{text-align:center;padding:20px 0 0;margin:0;}
+h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;text-shadow:0 0 4px #fff;}
 
 .animation{float:left;width:90px;height:90px;background-image:url(i/sprite.png);background-repeat:no-repeat;
   background-position:0 -450px;
@@ -33,21 +34,129 @@ h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;}
 
 .bt{padding:5px 0;
 transition:all 0.5s ease;
-color:rgba(0,0,0,0.5);
+color:#000;
 font-weight:bold;
 /* text-shadow:0 1px 3px #fff; */
 border-style: solid;
-border-width: 9px 11px 10px 10px;
-border-image: url(i/borderz.png) 9 11 10 10 fill repeat;
+border-width: 17px 16px 16px 15px;
+border-image: url(i/borderz.png) 17 16 16 15 fill repeat;
+
+/*
 background: #b36ae8;
 background: linear-gradient(to bottom, #b36ae8 0%,#bf57bb 50%,#b36ae8 100%);
+*/
 background-clip:border-box;
-box-shadow:0 0 10px #000;
+
 text-align:center;width:50%;display:block;font-size:5vw;text-decoration:none;margin:50px auto;clear:both;}
 
 
 .bt:hover,
 .bt:focus{
   color:#000;
-  box-shadow:0 0 10px #fff;
+  text-shadow:0 0 1px #fff, 1px -1px 4px #939;
+}
+
+/* List world */
+ul{padding:0;margin:0 0 90px 0;overflow:hidden;}
+ul li{list-style:none;margin:0;padding:0;}
+ul li a{text-decoration:none;padding:0 11px 11px 0;margin:5px 0;color:#fff;font-size:2.5vw;display:block;text-align:center;border:1px dotted #fff;cursor:pointer;}
+
+ul.worlds li a{
+  text-shadow:0 0 1px #fff, 0 -1px 2px #555;
+  color:#4f4f4f;
+  border-style: solid;
+  border-width: 16px 15px 18px 16px;
+  border-image: url(i/borders.png) 16 15 18 16 fill repeat;
+}
+
+
+
+ul.worlds li a:hover, 
+ul.worlds li a:focus{
+  color:#222;
+  border-image: url(i/borders-focus.png) 16 15 18 16 fill repeat;
+}
+
+
+ul.lvls li{box-sizing:border-box;float:left;width:25%;margin:10px 0;}
+ul.lvls li a{margin:0 10px;}
+ul.lvls li.completed{position:relative;}
+ul.lvls li.completed a{
+  text-shadow:0 0 1px #e51d2d, 0 -1px 2px #f8b696;
+  color:#ec0010;
+  border-style: solid;
+  border-width: 16px 15px 18px 16px;
+  border-image: url(i/border-based.png) 16 15 18 16 fill repeat;
+}
+ul.lvls li.uncompleted a{
+  text-shadow:0 0 1px #fff, 0 -1px 2px #555;
+  color:#4f4f4f;
+  border-style: solid;
+  border-width: 16px 15px 18px 16px;
+  border-image: url(i/borders.png) 16 15 18 16 fill repeat;
+}
+
+ul.lvls span{position:absolute;bottom:7px;right:28px;padding:2px;border:1px solid #fff;display:block;
+  background:#563F25;color:#fff;font-family:Arial;font-size:11px;box-shadow:0 0 5px #000;}
+
+ul.lvls li.uncompleted a:hover,
+ul.lvls li.uncompleted a:focus{
+  color:#222;
+  border-image: url(i/borders-focus.png) 16 15 18 16 fill repeat;
+}
+
+
+.consol{
+  position: absolute;
+  background: rgba(250,250,250,0.5);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 102;
+  color: #111;
+  overflow:hidden;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  clear:both;
+  height:80px;
+  padding:5px 0 5px 0;
+  margin:5px auto 0;
+  font-size: 2vw;
+  text-align: center;
+}
+
+.consol .block{
+  transition: 0.2s ease all;
+  cursor:pointer;
+  margin-right: 20px;
+  text-decoration: underline;
+}
+
+.consol .worlds,
+.consol .home,
+.consol .settings{
+  padding-bottom: 35px;
+  font-size: 2vw;
+}
+
+.consol .home{
+  background: url(i/maison.svg) no-repeat 50% 100%;
+  background-size: 30px 30px;
+}
+
+.consol .worlds{
+  background: url(i/temple.svg) no-repeat 50% 100%;
+  background-size: 30px 30px;
+}
+
+.consol .settings{
+  background: url(i/gear.svg) no-repeat 50% 100%;
+  background-size: 30px 30px;
+}
+
+.consol .block:hover,
+.consol .block:focus{
+  text-shadow:0 0 1px #fff, 2px -1px 4px #939;
 }

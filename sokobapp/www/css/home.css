@@ -59,7 +59,7 @@ text-align:center;width:50%;display:block;font-size:5vw;text-decoration:none;mar
 /* List world */
 ul{padding:0;margin:0 0 90px 0;overflow:hidden;}
 ul li{list-style:none;margin:0;padding:0;}
-ul li a{text-decoration:none;padding:0 11px 11px 0;margin:5px 0;color:#fff;font-size:2.5vw;display:block;text-align:center;border:1px dotted #fff;cursor:pointer;}
+ul li a{text-decoration:none;padding:0 11px 11px 0;margin:5px 0;color:#fff;font-size:20px;display:block;text-align:center;border:1px dotted #fff;cursor:pointer;}
 
 ul.worlds li a{
   text-shadow:0 0 1px #fff, 0 -1px 2px #555;
@@ -138,7 +138,7 @@ ul.lvls li.uncompleted a:focus{
 .consol .home,
 .consol .settings{
   padding-bottom: 35px;
-  font-size: 2vw;
+  font-size: 17px;
 }
 
 .consol .home{

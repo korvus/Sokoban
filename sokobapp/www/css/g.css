@@ -50,7 +50,7 @@ body svg {fill: currentColor;width:50%;margin:0 auto;display:block;opacity:0.5;}
 
 #popin.deploy{
   transform:translateZ(0px);
-  transition:all 3s ease;
+  transition:all 1s ease;
 }
 
 .hide{display:none;}

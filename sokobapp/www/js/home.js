@@ -50,7 +50,7 @@ function displayLvls(lvls, world){
       list[b].setAttribute("class","uncompleted");
     }else{
       var moves = document.createElement("span");
-      var hm = document.createTextNode(nbMv+" moves");
+      var hm = document.createTextNode(nbMv);
       moves.appendChild(hm);
       list[b].setAttribute("class","completed");
       list[b].appendChild(moves);

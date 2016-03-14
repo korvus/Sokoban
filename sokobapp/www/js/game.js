@@ -37,6 +37,7 @@ var SD_BACKWARD = 0x02;
 var SD_LEFT     = 0x03;
 var SD_RIGHT    = 0x04;
 
+var nbrLvl = 0;
 var world = 0;
 world = localStorage.getItem("playWorld");
 var lvl = 0;
@@ -48,6 +49,8 @@ var toGoId = "grid-0-0";
 //If displaying A*
 var aStar = 0;
 var humanMove = 1;
+
+var dataJson = {};
 
 function Sokoban(){
     this.end_game         = false;
@@ -392,6 +395,32 @@ Sokoban.prototype.validate_move = function(direction){
     }
 }
 
+Sokoban.prototype.cialhbc = function(){
+    var score = [];
+    var notCompleted = [];
+    for(var e=0;e<dataJson.length;e++){
+        score[e] = localStorage.getItem("status-"+world+"-"+e);
+        if(score[e]===0){
+            notCompleted.push(e);
+        }
+    }
+    if(notCompleted.length == 0){
+        alert("world finished");
+    }
+}
+
+Sokoban.prototype.displayPopin = function(){
+    $("popin").classList.remove("hide");
+    $("popin").classList.add("deploy");
+
+    var currentLvl = parseInt(lvl)+1;
+    if(nbrLvl===currentLvl){
+        //cialhbc => Check If All Levels Have Be Completed
+        sb.cialhbc();
+    }
+    //alert(world);
+    //alert(lvl);
+}
 
 Sokoban.prototype.endLevel = function(){
     //give class end to html
@@ -403,15 +432,13 @@ Sokoban.prototype.endLevel = function(){
         localStorage.setItem("status-"+world+"-"+lvl, this.moves);
     }
 
-    $("popin").classList.remove("hide");
-    $("popin").classList.add("deploy");
-
+    sb.displayPopin();
 
 }
 
 Sokoban.prototype.restart_level = function(){
     $("grid").remove();
-    loadAll();
+    load_map(dataJson);
 }
 
 Sokoban.prototype.undo_move = function(){
@@ -743,7 +770,9 @@ function loadAll(){
     $('undo').setAttribute("class","off");
 
     fetchJSONFile('js/lvl/world-'+world+'.json', function(data){
-      load_map(data);
+      dataJson = data;
+      nbrLvl = data.length;
+      load_map(dataJson);
       bindKeyEvent();
       bindConsolEvent();
     })

@@ -1,6 +1,6 @@
 const fs = require('fs')
-const xml2js = require("xml2js");
-const parser = new xml2js.Parser();
+//const xml2js = require("xml2js");
+//const parser = new xml2js.Parser();
 
 const LVLS_DIR = './sokobapp/www/js/lvl'
 const XTRA_LVLS_DIR = './sokobapp/www/js/extra'
@@ -25,6 +25,7 @@ fs.readdir(BG_DIR, (err, filenames) => {
   fs.writeFileSync(`${BG_DIR}/bg.json`, `{"number":${background.length}}`)
 })
 
+/*
 fs.readdir(XTRA_LVLS_DIR, (err, filenames) => {
   const sokobanFiles = filenames
     .filter(xmlFile => /.*(\.slc|\.xml)/.test(xmlFile))
@@ -57,4 +58,4 @@ fs.readdir(XTRA_LVLS_DIR, (err, filenames) => {
 
     });
 })
-
+*/

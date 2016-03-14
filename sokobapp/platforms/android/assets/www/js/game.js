@@ -17,8 +17,7 @@ setvolumeOfAlltracks(1);
 
 
 
-function lpad(n, z)
-{
+function lpad(n, z){
     for (var str = '' + n, i = str.length; i < z; i++) {
         str = '0' + str;
     }
@@ -38,6 +37,18 @@ var SD_BACKWARD = 0x02;
 var SD_LEFT     = 0x03;
 var SD_RIGHT    = 0x04;
 
+var nbrLvl = 0;
+var world = 0;
+world = localStorage.getItem("playWorld");
+var lvl = 0;
+lvl = localStorage.getItem("playLvl");
+
+//Coord for displaying A*
+var toGoId = "grid-0-0";
+
+//If displaying A*
+var aStar = 0;
+var humanMove = 1;
 
 function Sokoban(){
     this.end_game         = false;
@@ -121,15 +132,15 @@ Sokoban.prototype.reinitGame = function(){
 Sokoban.prototype.render_grid_objects = function()
 {
     for (var k = 0; k < this.grid_size; k++) {
-        try {
+        //try {
             this.render_grid_object(k);
-        }
-        
+        //}
+        /*
         catch(e) {
             console.log(k + '\n' + this.get_grid_id(k) + '\n' + e);
             break;
         }
-        
+        */
     }
 
     //Once all cases calculated
@@ -137,7 +148,7 @@ Sokoban.prototype.render_grid_objects = function()
     var widthDevice = window.innerWidth;
     var marginWidth = (widthDevice*10)/100;
     var concreteWidth = widthDevice - marginWidth;
-    var boardHeight = heightDevice - 50;
+    var boardHeight = heightDevice - 110;
     var idealHeight = this.roundWithTwoDecimal(boardHeight/this.grid_height);
     var idealWidth = this.roundWithTwoDecimal(concreteWidth/this.grid_width);
     var nbr = 100/this.grid_width;
@@ -158,17 +169,17 @@ Sokoban.prototype.roundWithTwoDecimal = function(result){
 }
 
 
-Sokoban.prototype.render_grid_object = function(k)
-{
+Sokoban.prototype.render_grid_object = function(k) {
 
-
-    if($(this.get_grid_id(k)).className.contains("floor")){
+    if($(this.get_grid_id(k)).classList.contains("floor")) {
         var floor = "floor";
     }else{
         var floor = "";
     }
 
     if (this.grid[k] & SM_PLAYER) {
+
+        //var toGoId = this.get_grid_id(k);
 
         var pushingClass = this.action_push === 1 ? "pushing-"+(this.moves%3) : "walking-"+(this.moves%3);
 
@@ -234,10 +245,13 @@ Sokoban.prototype.update_moves = function()
         walk.play();
     }
 
-    
-
     this.moves++;
     //insert moves into consol
+    if(this.moves>0){
+        $('undo').classList.remove("off");
+        $('restart').classList.remove("off");
+    }
+
     $( 'moves' ).innerHTML = lpad(this.moves, 4);
 }
 
@@ -351,9 +365,11 @@ Sokoban.prototype.validate_move = function(direction){
             this.undo_strate[this.moves-1] = undo;
         }
 
+        if(humanMove === 1){
+            movePath();
+        }
         
-    }
-    else {
+    } else {
         //If no move (player locked by wall for an example)
         this.render_grid_object(k);
     }
@@ -377,9 +393,36 @@ Sokoban.prototype.validate_move = function(direction){
     }
 }
 
+Sokoban.prototype.displayPopin = function(){
+    $("popin").classList.remove("hide");
+    $("popin").classList.add("deploy");
+
+    var currentLvl = parseInt(lvl)+1;
+    if(nbrLvl===currentLvl){
+        alert("arrivé à la fin");
+    }
+    alert(world);
+
+    alert(lvl);
+}
 
 Sokoban.prototype.endLevel = function(){
-    $("grid").className = "end";
+    //give class end to html
+    document.querySelector("html").className = "end";
+    var current = localStorage.getItem("status-"+world+"-"+lvl);
+    current = parseInt(current);
+    //Save the moves if better than previous
+    if(current===0 || current>this.moves){
+        localStorage.setItem("status-"+world+"-"+lvl, this.moves);
+    }
+
+    sb.displayPopin();
+
+}
+
+Sokoban.prototype.restart_level = function(){
+    $("grid").remove();
+    loadAll();
 }
 
 Sokoban.prototype.undo_move = function(){
@@ -389,12 +432,9 @@ Sokoban.prototype.undo_move = function(){
         return;
     }
 
-    if (this.undo_strate[this.moves-1][2] != null) {
-        this.player_direction = this.undo_strate[this.moves-1][2];
-    }
-
     //second array inside undo object is the box position
     if (this.undo_strate[this.moves-1][1] != null) {
+        this.action_push = 1;
         var m = this.undo_strate[this.moves-1][1][0],
             p = this.undo_strate[this.moves-1][1][1];
 
@@ -402,6 +442,12 @@ Sokoban.prototype.undo_move = function(){
         this.grid[p] ^= SM_BOX;
         this.render_grid_object(m);
         this.render_grid_object(p);
+    }else{
+        this.action_push = 0;
+    }
+
+    if (this.undo_strate[this.moves-1][2] != null) {
+        this.player_direction = this.undo_strate[this.moves-1][2];
     }
 
     //first array inside undo object is the player position
@@ -461,6 +507,65 @@ Sokoban.prototype.map_tmp_walkable_array = function(){
  }
 
 
+
+function movePath(){
+
+    [].forEach.call(document.querySelectorAll(".walkable"), function(el){
+        el.classList.remove("walkable");
+    });
+
+    //console.log(this);
+    if(this.getAttribute){
+        aStar = 1;
+        toGoId = this.getAttribute("id");
+    }
+
+    var splitedId = toGoId.split("-");
+    var coordEnd = [parseInt(splitedId[1]), parseInt(splitedId[2])];
+
+    var start = sb.map_tmp_walkable_array();
+
+    sb.path = findPath(sb.walkable_zone,start,coordEnd);
+
+    if(aStar){
+        sb.path.forEach(function(tile){
+            $("grid-"+tile[0]+"-"+tile[1]).classList.add("walkable");
+        })
+    }
+
+}
+
+function actionMovePath(){
+    humanMove = 0;
+    var pathIteration = 0;
+    var direction = SD_FORWARD;
+    sb.path.forEach(function(tile){
+        if(pathIteration>0){
+            switch(sb.path[pathIteration][0] - sb.path[pathIteration-1][0]){
+                case 0:
+                    switch(sb.path[pathIteration][1] - sb.path[pathIteration-1][1]){
+                        case 1: direction = SD_RIGHT; break;
+                        case -1: direction = SD_LEFT; break;
+                    }
+                    break;
+                case 1: direction = SD_BACKWARD; break;
+                case -1: direction = SD_FORWARD; break;
+            }
+            sb.validate_move(direction);
+        }
+        pathIteration++;
+    })
+    humanMove = 1;
+    //sb.validate_move(SD_FORWARD)
+}
+
+function removeWalkableClass(){
+    aStar = 0;
+    [].forEach.call(document.querySelectorAll(".walkable"), function(el){
+        el.classList.remove("walkable");
+    });
+}
+
 Sokoban.prototype.set_click_floor = function() {
     
     var allFloor = document.querySelectorAll(".floor");
@@ -469,54 +574,9 @@ Sokoban.prototype.set_click_floor = function() {
 
     [].forEach.call(allFloor, function(floorTile) {
 
-        floorTile.addEventListener("mouseover", function(){
-            var toGoId = this.getAttribute("id");
-            var splitedId = toGoId.split("-");
-            var coordEnd = [parseInt(splitedId[1]), parseInt(splitedId[2])];
-
-            var start = sb.map_tmp_walkable_array();
-
-            sb.path = findPath(sb.walkable_zone,start,coordEnd);
-
-            sb.path.forEach(function(tile){
-                $("grid-"+tile[0]+"-"+tile[1]).classList.add("walkable");
-            })       
-
-        });
-
-        floorTile.addEventListener("mousedown", function(){
-            var pathIteration = 0;
-            var direction = SD_FORWARD;
-            sb.path.forEach(function(tile){
-                if(pathIteration>0){
-                    
-                    //first value is about vertical
-                    switch(sb.path[pathIteration][0] - sb.path[pathIteration-1][0]){
-                        case 0:
-                            //second value is about horizontal
-                            switch(sb.path[pathIteration][1] - sb.path[pathIteration-1][1]){
-                                case 1: direction = SD_RIGHT; break;
-                                case -1: direction = SD_LEFT; break;
-                            }
-                            break;
-                        case 1: direction = SD_BACKWARD; break;
-                        case -1: direction = SD_FORWARD; break;
-                    }
-                    
-                    sb.validate_move(direction);
-                }
-                pathIteration++;
-            })
-
-            //sb.validate_move(SD_FORWARD)
-
-        })
-
-        floorTile.addEventListener("mouseout", function(){
-            [].forEach.call(document.querySelectorAll(".walkable"), function(el){
-                el.classList.remove("walkable");
-            });
-        });
+        floorTile.addEventListener("mouseover", movePath);
+        floorTile.addEventListener("mousedown", actionMovePath)
+        floorTile.addEventListener("mouseout", removeWalkableClass);
 
     })
     
@@ -577,6 +637,7 @@ Sokoban.prototype.set_virtual_array = function(){
 Sokoban.prototype.set_floor = function(){
     var hero = sb.set_virtual_array();
     sb.get_tiles_floor(hero);
+    //movePath();
     sb.set_click_floor();
 }
 
@@ -596,18 +657,21 @@ Sokoban.prototype.modify_coords = function(coords, direction)
 var sb = null;
 
 
-function load_map(n){
+function load_map(all_maps){
+
+    var sb_maps = all_maps;
 
     sb = new Sokoban();
 
-    sb.grid_data  = sb_maps[n].split("|");
+    sb.grid_data  = sb_maps[lvl].split("|");
     sb.grid_code = sb.grid_data[2];
 
     sb.grid_width  = sb.grid_data[0];
     sb.grid_height = sb.grid_data[1];
 
     sb.render_grid();
-    $('map').innerHTML = lpad(n + 1, 2);
+    $('map').innerHTML = lpad((parseInt(lvl) + 1), 2);
+    $('world').innerHTML = lpad((parseInt(world) + 1), 2);
 
     sb.set_floor();
 }
@@ -628,8 +692,15 @@ function sokoban_move(e)
         keynum = e.which;
     }
 
+    //Undo
     if (keynum == 85) {
         sb.undo_move();
+        return false;
+    }
+
+    //Restart
+    if (keynum == 82) {
+        sb.restart_level();
         return false;
     }
 
@@ -641,26 +712,6 @@ function sokoban_move(e)
     return true;
 }
 
-//initialisation
-function skb() {
-
-    //By default load the first map (0)
-    load_map(0);
-
-    /*Array of levels*/
-    for (var tmp = '', i = 0; i < sb_maps.length; i++) {
-        tmp += '<td><span onclick="load_map( ' + i + ')" style="cursor: pointer; color: #0099CC;">' + lpad(i + 1, 2) + '</span></td>';
-
-        if (i % 10 == 9) {
-            tmp += '</tr>' + (i + 1 == sb_maps.length ? '' : '<tr>');
-        }
-    }
-
-/*
-    $('maps').innerHTML = '<table cellspacing="1" cellpadding="0" border="0" id="elevator"><tr>'
-        + tmp + (i + sb_maps.length ? '' : '</tr>') + '</table>';
-*/
-}
 
 //Bind key events
 function bindKeyEvent(){
@@ -669,8 +720,50 @@ function bindKeyEvent(){
     };
 }
 
+function bindConsolEvent(){
+    $('restart').addEventListener('click', function(e){
+        sb.restart_level();
+    });
+
+    $('undo').addEventListener('click', function(e){
+        sb.undo_move();
+    });
+
+    $('map').addEventListener('click', function(e){
+        //sessionStorage.setItem("wantToGo","lvls");
+        document.location ="index.html#levels";
+    });
+
+    $('world').addEventListener('click', function(e){
+        //sessionStorage.setItem("wantToGo","world");
+        document.location ="index.html#temple";
+    });
+
+    var nbMv = localStorage.getItem("status-"+world+"-"+lvl);
+    if(nbMv && nbMv > 0){
+      var best = document.createTextNode(nbMv);
+      $("best").appendChild(best);
+      document.querySelector(".best").classList.remove("hide");
+    }
+
+}
+
+function loadAll(){
+
+    $('restart').setAttribute("class","off");
+    $('undo').setAttribute("class","off");
+
+    fetchJSONFile('js/lvl/world-'+world+'.json', function(data){
+      nbrLvl = data.length;
+      load_map(data);
+      bindKeyEvent();
+      bindConsolEvent();
+    })
+}
+
 //Loading
 document.addEventListener("DOMContentLoaded", function(){
-    skb();
-    bindKeyEvent();
+    
+    loadAll();
+
 });
