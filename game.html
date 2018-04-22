@@ -5,43 +5,48 @@
      <title>Sokoban</title>
      <meta name="description" content="" />
 
-        <link rel="stylesheet" href="r/css/g.css">
-        <link rel="stylesheet" href="r/css/game.css">
-        <link rel="stylesheet" href="r/css/end.css">
+        <link rel="stylesheet" href="css/g.css">
+        <link rel="stylesheet" href="css/game.css">
+        <link rel="stylesheet" href="css/end.css">
         <link rel="icon" type="image/png" href="r/i/favicon.ico">
-        <script type="text/javascript" src="r/js/g.js"></script>
-        <script type="text/javascript" src="r/js/maps.js"></script>
-        <script type="text/javascript" src="r/js/pathfinding.js"></script>
-        <script type="text/javascript" src="r/js/game.js"></script>
+        <script type="text/javascript" src="js/g.js"></script>
+        <script type="text/javascript" src="js/pathfinding.js"></script>
+        <script type="text/javascript" src="js/game.js"></script>
   </head>
   <body>
-
-    <!--
-    <h1>
-      <-?php include "r/i/logo.svg"; ?->
-    </h1>
-    -->
 
     <div id="game">
 
     </div>
 
     <div id="info">
-      <div class="block">
-        Map
-        <span id="map">00</span>
-      </div>
       <div class="block infos">
+        pushes: <span id="pushes">0000</span><br />
         moves: <span id="moves">0000</span><br />
-        pushes: <span id="pushes">0000</span>
+        <span class="best hide">Your best moves: <span id="best">0000</span></span>
       </div>
       <div class="block">
-        <a href="#" id="undo"><kbd>U</kbd>ndo</a>
+        Floor <span id="map" title="move to the list of floor">00</span><br />
+        Temple <span title="move to list of temple" id="world">00</span>
+      </div>
+      <div class="block">
+        <a href="#" id="undo">
+          <kbd  title="You can press U for undo">U</kbd>ndo
+        </a>
+      </div>
+      <div class="block">
+        <a href="#" id="restart">
+          <kbd title="You can press R for restart">R</kbd>estart
+        </a>
       </div>
     </div>
 
+    <div id="popin" class="hide">
+      <h1>Congratulation</h1>
+      <h2>You win!</h2>
+    </div>
 
-<!-- 
+<!--
     <div id="maps">
 
     </div> -->
