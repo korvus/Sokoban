@@ -4,6 +4,8 @@ html{min-height:100%;}
 
 body{background:url(i/home.png) no-repeat;background-size:100% auto;background-position:0 100%;overflow:auto;}
 
+.logo { width: 100%; }
+
 main{margin:0 auto;max-width:400px;overflow:hidden;}
 h1{text-align:center;padding:20px 0 0;margin:0;}
 h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;text-shadow:0 0 4px #fff;}
@@ -51,6 +53,16 @@ h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;text-shado
   text-decoration:none;margin:50px auto;clear:both;
 }
 
+.about {
+	width:70px;
+	height:100px;
+	display:block;
+	right:20px;
+	bottom:10px;
+	position: fixed;
+	background:url(i/about.svg) no-repeat 0 0;
+	background-size: 100% auto;
+}
 
 .bt:hover,
 .bt:focus{
@@ -110,7 +122,6 @@ ul.lvls li.uncompleted a:focus{
 
 .consol{
   position: absolute;
-  background: rgba(250,250,250,0.5);
   bottom: 0;
   left: 0;
   right: 0;
@@ -122,10 +133,15 @@ ul.lvls li.uncompleted a:focus{
   justify-content: center;
   align-items: baseline;
   clear:both;
-  height:80px;
-  padding:5px 0 5px 0;
+  background: #000;
+  border-radius: 25px 25px 0 0;
+  width: 350px;
+  height:40px;
+  padding:5px 50px 5px 50px;
   margin:5px auto 0;
   text-align: center;
+  z-index:2;
+  box-shadow: 0 0 5px #939;
 }
 
 .consol .block{
@@ -136,26 +152,19 @@ ul.lvls li.uncompleted a:focus{
   text-decoration: underline;
 }
 
-.consol .worlds,
 .consol .home,
-.consol .settings{
-  padding-bottom: 35px;
-  font-size: 17px;
-}
-
-.consol .home{
-  background: url(i/maison.svg) no-repeat 50% 100%;
-  background-size: 30px 30px;
-}
-
-.consol .worlds{
-  background: url(i/temple.svg) no-repeat 50% 100%;
-  background-size: 30px 30px;
-}
-
-.consol .settings{
-  background: url(i/gear.svg) no-repeat 50% 100%;
-  background-size: 30px 30px;
+.consol .worlds {
+  /* background: url(i/home.svg) no-repeat 50% 50%;
+  background-size: auto 50%;*/
+  padding: 0px 0 0px;
+  font-size: 27px;
+  color:#4f4f4f;
+  /*
+  border-style: solid;
+  text-shadow:0 0 1px #fff, 0 -1px 2px #555;
+  border-width: 16px 15px 18px 16px;
+  border-image: url(i/borders.png) 16 15 18 16 fill repeat; 
+  */
 }
 
 .consol .block:hover,

@@ -1,6 +1,5 @@
 function $(){return document.getElementById(arguments[0]);}
 
-
 var stonefit = new Audio("r/sounds/stone-fit.mp3");
 var stonemove = new Audio("r/sounds/stone-move.mp3");
 var walk = new Audio("r/sounds/walk-short.mp3");
@@ -764,6 +763,13 @@ function bindConsolEvent(){
 
 }
 
+function setRandomBG(){
+  fetchJSONFile('css/i/bg/bg.json', function(data){
+    random = Math.round(getRandomArbitrary(0,parseInt(data.number)));
+    document.querySelector("html").style.backgroundImage = "url(css/i/bg/bg"+random+".png)";
+  });
+}
+
 function loadAll(){
 
     $('restart').setAttribute("class","off");
@@ -775,6 +781,7 @@ function loadAll(){
       load_map(dataJson);
       bindKeyEvent();
       bindConsolEvent();
+      setRandomBG();
     })
 }
 

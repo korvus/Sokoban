@@ -13,6 +13,7 @@ function listLvl(){
   var wichWorldToGet = localStorage.getItem("world");
   fetchJSONFile('js/lvl/world-'+wichWorldToGet+'.json', function(data){
     displayLvls(data, wichWorldToGet);
+    sessionStorage.setItem("wantToGo","lvls");
   });
 
 }
@@ -84,7 +85,7 @@ function getWorldInfos(a, d){
     ela = document.createElement('a');
     ela.setAttribute('href', 'game.html');
     ela.setAttribute('data-href', a);
-    eltxt = document.createTextNode("temple "+(a+1)+" ("+data.length+" floors)");
+    eltxt = document.createTextNode("World "+(a+1)+" ("+data.length+" floors)");
     ela.appendChild(eltxt);
     elli.appendChild(ela);
     document.querySelector("ul").appendChild(elli);
@@ -134,7 +135,7 @@ function removeLists(){
   if(document.querySelector("ul")){
     var list = document.querySelector("ul");
     list.remove();
-  }  
+  }
 }
 
 function displayWorld(){
@@ -163,7 +164,7 @@ function removeConsol(){
 function cleanHome(){
   removeLists();
   removeConsol();
-  changeH2("Choose a temple");
+  changeH2("Choose a world");
   removeCharacter();
   removeBT();
 }
@@ -196,19 +197,13 @@ function setConsole(){
   elHome.appendChild(elHomect);
   elHome.classList.add("home", "block");
 
-  var elWorldct = document.createTextNode("Temples");
+  var elWorldct = document.createTextNode("Worlds");
   var elWorld = document.createElement('span');
   elWorld.appendChild(elWorldct);
   elWorld.classList.add("worlds", "block");
 
-  var elSettingsct = document.createTextNode("About / Settings");
-  var elSettings = document.createElement('span');
-  elSettings.appendChild(elSettingsct);
-  elSettings.classList.add("settings", "block");
-
   elConsole.appendChild(elHome);
   elConsole.appendChild(elWorld);
-  elConsole.appendChild(elSettings);
 
   document.body.appendChild(elConsole);
 
@@ -242,7 +237,6 @@ function entryGame(){
 
 function ifSessionStorage(){
   if(sessionStorage.getItem("wantToGo")){
-    
     if(sessionStorage.wantToGo === "lvls"){
       listLvl();
     }else if(sessionStorage.wantToGo === "world"){

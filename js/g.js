@@ -24,13 +24,8 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function setRandomBG(){
-  fetchJSONFile('css/i/bg/bg.json', function(data){
-    random = Math.round(getRandomArbitrary(0,parseInt(data.number)));
-    document.querySelector("html").style.backgroundImage = "url(css/i/bg/bg"+random+".png)";
-  });
-}
-
 document.addEventListener("DOMContentLoaded", function(){
-  setRandomBG();
+  if(window.setRandomBG !== undefined){
+    setRandomBG();
+  }
 });
