@@ -402,6 +402,18 @@ Sokoban.prototype.cialhbc = function(){
     }
 }
 
+function jumpToNext(moveto){
+    localStorage.setItem("playLvl", moveto);
+    sb.restart_level();
+    return false;
+}
+
+Sokoban.prototype.hidePopin = function(){
+    [].forEach.call(document.querySelectorAll("#popin .link"), (el) => el.remove());
+    $("popin").classList.add("hide");
+    $("popin").classList.remove("deploy");
+}
+
 Sokoban.prototype.displayPopin = function(){
 
     function getIncrementLvl(c){
@@ -421,7 +433,6 @@ Sokoban.prototype.displayPopin = function(){
             }
         }
     }
-
 
     $("popin").classList.remove("hide");
     $("popin").classList.add("deploy");
@@ -468,6 +479,7 @@ Sokoban.prototype.displayPopin = function(){
             $("popin").appendChild(nxtlvl);
             */
         }
+        nxtlvl.addEventListener('click', (e) => {jumpToNext(nextLvl)});
 
         }
     // alert(world);
@@ -488,6 +500,8 @@ Sokoban.prototype.endLevel = function(){
 }
 
 Sokoban.prototype.restart_level = function(){
+    document.querySelector("html").classList.remove("end");
+    sb.hidePopin();
     $("grid").remove();
     load_map(dataJson);
 }
@@ -634,7 +648,7 @@ function removeWalkableClass(){
 }
 
 Sokoban.prototype.set_click_floor = function() {
-    
+
     var allFloor = document.querySelectorAll(".floor");
 
     //array.forEach(function (value) {

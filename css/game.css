@@ -119,7 +119,7 @@ body {
 
 #info{
   position: absolute;
-  background: rgba(250,250,250,0.5);
+  background: url(i/stone2.png) repeat 0 0;
   bottom: 0;
   left: 0;
   right: 0;
@@ -136,6 +136,8 @@ body {
   margin:5px auto 0;
   font-size: 15px;
   text-align: center;
+  border-top:1px solid #333;
+  box-shadow:1px 0 1px #555;
 }
 
 #info .block{
@@ -171,8 +173,19 @@ body {
 }
 
 #info .infos,
+#info .where{
+  text-align: left;
+}
+
+#info .blocks b{
+  font-size: 15px;
+  width: 75px;
+  float: left;
+}
+
+#info .infos,
 #info .infos span{
-  font-size:15px;
+  font-size:18px;
 }
 
 
@@ -194,7 +207,7 @@ a kbd{
 }
 
 #info .off{
-  opacity: 0.2;
+  opacity: 0.5;
 }
 
 #info #map{font-size:15px;margin:0 1vw 5% 0.5vw;}
