@@ -105,7 +105,17 @@ body {
 .base.right{background-image:url(i/chrright.png),url(i/base.png), url(i/ground.png);}
 .base.bwd{background-image:  url(i/forward.png), url(i/base.png), url(i/ground.png);}
 
+.link {
+  display: inline-block;
+  color: #fff;
+  font-size: 30px;
+  text-decoration: none;
+  border-bottom:1px solid #fff;
+}
 
+.link:hover {
+  opacity: 0.5;
+}
 
 #info{
   position: absolute;

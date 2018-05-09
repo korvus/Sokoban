@@ -36,7 +36,7 @@ body svg {fill: currentColor;width:50%;margin:0 auto;display:block;opacity:0.5;}
   width:500px;left:50%;margin-left:-250px;display:block;
   padding:10px;
   border-style: solid;
-  border-width: 17px 16px 16px 15px;
+  border-width: 10px 10px 10px 10px;
   border-image: url(i/borderz.png) 17 16 16 15 fill repeat;
   color:#fff;
   text-shadow:0 0 3px #000;
@@ -46,7 +46,7 @@ body svg {fill: currentColor;width:50%;margin:0 auto;display:block;opacity:0.5;}
   perspective:280px;
   transition:all 1s ease;
   transform:rotateX(90deg) translateZ(40px);
-
+  box-shadow: 0 0 80px #939;
 }
 
 #popin h1{text-align:center;margin:10px 0 0;border-bottom:1px double #000;}

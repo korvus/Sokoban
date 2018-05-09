@@ -20,7 +20,6 @@ function lpad(n, z){
     for (var str = '' + n, i = str.length; i < z; i++) {
         str = '0' + str;
     }
-
     return str;
 }
 
@@ -82,21 +81,16 @@ Sokoban.prototype.get_grid_id = function(k)
 }
 
 
-Sokoban.prototype.grid_ntoc = function(n)
-{
+Sokoban.prototype.grid_ntoc = function(n) {
     var c0 = Math.floor(n / this.grid_width);
     return [c0, (n - (c0 * this.grid_width))];
 }
 
-
-Sokoban.prototype.grid_cton = function(c)
-{
+Sokoban.prototype.grid_cton = function(c) {
     return (c[0] * this.grid_width) + c[1];
 }
 
-
 Sokoban.prototype.render_grid = function() {
-
     if (this.grid_code != null) {
         this.unmap_grid();
         this.grid_code = null;
@@ -369,7 +363,7 @@ Sokoban.prototype.validate_move = function(direction){
         if(humanMove === 1){
             movePath();
         }
-        
+
     } else {
         //If no move (player locked by wall for an example)
         this.render_grid_object(k);
@@ -409,6 +403,26 @@ Sokoban.prototype.cialhbc = function(){
 }
 
 Sokoban.prototype.displayPopin = function(){
+
+    function getIncrementLvl(c){
+        if(c === nbrLvl){
+            var nbMove = localStorage.getItem("status-"+world+"-"+c);
+            if(parseInt(nbMove) === 0){
+                return c;
+            } else {
+                return "last";
+            }
+        } else {
+            var nbMove = localStorage.getItem("status-"+world+"-"+c);
+            if(parseInt(nbMove) === 0){
+                return c;
+            } else {
+                return getIncrementLvl(parseInt(c)+1);
+            }
+        }
+    }
+
+
     $("popin").classList.remove("hide");
     $("popin").classList.add("deploy");
 
@@ -416,9 +430,48 @@ Sokoban.prototype.displayPopin = function(){
     if(nbrLvl===currentLvl){
         //cialhbc => Check If All Levels Have Be Completed
         sb.cialhbc();
-    }
-    //alert(world);
-    //alert(lvl);
+    } else {
+        var nextLvl = parseInt(lvl)+1;
+        var nbMove4nxt = localStorage.getItem("status-"+world+"-"+nextLvl);
+
+        /* Next level have been already solved, but we purposing it */
+        var nextLvlTxt = "Next level ("+(parseInt(lvl)+2)+")";
+        var nxtlvl = document.createElement("a");
+        nxtlvl.setAttribute("href","#"+nextLvl);
+        nxtlvl.className = "link";
+        var txt = document.createTextNode(nextLvlTxt);
+        nxtlvl.appendChild(txt);
+
+        if(nbMove4nxt === 0){
+            $("popin").appendChild(nxtlvl);
+        } else {
+            var nextFree = getIncrementLvl(lvl);
+            if(nextFree === 'last'){
+                $("popin").appendChild(nxtlvl);
+            } else {
+                var nextLvlAvailable = "Next unsolved level (level "+(parseInt(nextFree)+1)+")";
+                var nxtlvlAhref = parseInt(nextFree);
+                var nxtlvlA = document.createElement("a");
+                nxtlvlA.setAttribute("href","#"+nxtlvlAhref);
+                nxtlvlA.className = "link";
+                var txtA = document.createTextNode(nextLvlAvailable);
+                nxtlvlA.appendChild(txtA);
+                $("popin").appendChild(nxtlvl);
+                $("popin").appendChild(nxtlvlA);
+            }
+            /*
+            var nextLvlTxt = parseInt(lvl)+2;
+            var nxtlvl = document.createElement("a");
+            nxtlvl.setAttribute("href","#"+nextLvl);
+            var txt = document.createTextNode(nextLvlTxt);
+            nxtlvl.appendChild(txt);
+            $("popin").appendChild(nxtlvl);
+            */
+        }
+
+        }
+    // alert(world);
+    // alert(lvl);
 }
 
 Sokoban.prototype.endLevel = function(){
@@ -432,7 +485,6 @@ Sokoban.prototype.endLevel = function(){
     }
 
     sb.displayPopin();
-
 }
 
 Sokoban.prototype.restart_level = function(){
@@ -594,7 +646,7 @@ Sokoban.prototype.set_click_floor = function() {
         floorTile.addEventListener("mouseout", removeWalkableClass);
 
     })
-    
+
 }
 
 Sokoban.prototype.check_if_floor = function(next_check){

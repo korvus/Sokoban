@@ -85,7 +85,7 @@ function getWorldInfos(a, d){
     ela = document.createElement('a');
     ela.setAttribute('href', 'game.html');
     ela.setAttribute('data-href', a);
-    eltxt = document.createTextNode("World "+(a+1)+" ("+data.length+" floors)");
+    eltxt = document.createTextNode("World "+(a+1)+" ("+data.length+" levels)");
     ela.appendChild(eltxt);
     elli.appendChild(ela);
     document.querySelector("ul").appendChild(elli);

@@ -169,5 +169,5 @@ ul.lvls li.uncompleted a:focus{
 
 .consol .block:hover,
 .consol .block:focus{
-  text-shadow:0 0 1px #fff, 2px -1px 4px #939;
+  text-shadow: 2px -1px 4px #939;
 }
