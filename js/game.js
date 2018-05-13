@@ -143,7 +143,7 @@ Sokoban.prototype.render_grid_objects = function()
     var widthDevice = window.innerWidth;
     var marginWidth = (widthDevice*10)/100;
     var concreteWidth = widthDevice - marginWidth;
-    var boardHeight = heightDevice - 110;
+    var boardHeight = heightDevice - 170;
     var idealHeight = this.roundWithTwoDecimal(boardHeight/this.grid_height);
     var idealWidth = this.roundWithTwoDecimal(concreteWidth/this.grid_width);
     var nbr = 100/this.grid_width;
@@ -398,13 +398,23 @@ Sokoban.prototype.cialhbc = function(){
         }
     }
     if(notCompleted.length == 0){
-        alert("world finished");
+
+        var nextLvlTxt = "You accomplished all the levels of this world!";
+        var nxtlvl = document.createElement("a");
+        nxtlvl.setAttribute("href","index.html");
+        nxtlvl.className = "linkNoUnderline";
+        var txt = document.createTextNode(nextLvlTxt);
+        nxtlvl.appendChild(txt);
+        $("popin").appendChild(nxtlvl);
+
+        $("popin").classList.remove("hide");
+        $("popin").classList.add("deploy");
     }
 }
 
 function jumpToNext(moveto){
     localStorage.setItem("playLvl", moveto);
-    sb.restart_level();
+    location.reload();
     return false;
 }
 
@@ -422,6 +432,7 @@ Sokoban.prototype.displayPopin = function(){
             if(parseInt(nbMove) === 0){
                 return c;
             } else {
+                console.log("last");
                 return "last";
             }
         } else {
@@ -434,18 +445,16 @@ Sokoban.prototype.displayPopin = function(){
         }
     }
 
-    $("popin").classList.remove("hide");
-    $("popin").classList.add("deploy");
-
     var currentLvl = parseInt(lvl)+1;
     if(nbrLvl===currentLvl){
+        // If world accomplished
         //cialhbc => Check If All Levels Have Be Completed
         sb.cialhbc();
     } else {
-        var nextLvl = parseInt(lvl)+1;
-        var nbMove4nxt = localStorage.getItem("status-"+world+"-"+nextLvl);
+        var nextLvl = parseInt(currentLvl)+1;
+        var nbMove4nxt = parseInt(localStorage.getItem("status-"+world+"-"+nextLvl));
 
-        /* Next level have been already solved, but we purposing it */
+        // Next level have been already solved, but we purposing it
         var nextLvlTxt = "Next level ("+(parseInt(lvl)+2)+")";
         var nxtlvl = document.createElement("a");
         nxtlvl.setAttribute("href","#"+nextLvl);
@@ -469,19 +478,13 @@ Sokoban.prototype.displayPopin = function(){
                 nxtlvlA.appendChild(txtA);
                 $("popin").appendChild(nxtlvl);
                 $("popin").appendChild(nxtlvlA);
+                nxtlvlA.addEventListener('click', (e) => {jumpToNext(nextFree)});
             }
-            /*
-            var nextLvlTxt = parseInt(lvl)+2;
-            var nxtlvl = document.createElement("a");
-            nxtlvl.setAttribute("href","#"+nextLvl);
-            var txt = document.createTextNode(nextLvlTxt);
-            nxtlvl.appendChild(txt);
-            $("popin").appendChild(nxtlvl);
-            */
         }
-        nxtlvl.addEventListener('click', (e) => {jumpToNext(nextLvl)});
-
-        }
+        $("popin").classList.remove("hide");
+        $("popin").classList.add("deploy");
+        nxtlvl.addEventListener('click', (e) => {jumpToNext(currentLvl)});
+    }
     // alert(world);
     // alert(lvl);
 }
@@ -751,8 +754,8 @@ function load_map(all_maps){
     sb.grid_height = sb.grid_data[1];
 
     sb.render_grid();
-    $('map').innerHTML = lpad((parseInt(lvl) + 1), 2);
-    $('world').innerHTML = lpad((parseInt(world) + 1), 2);
+    $('map').innerHTML = "<b>Level</b> "+lpad((parseInt(lvl) + 1), 2);
+    $('world').innerHTML = "<b>World</b> "+lpad((parseInt(world) + 1), 2);
 
     sb.set_floor();
 }
@@ -811,12 +814,10 @@ function bindConsolEvent(){
     });
 
     $('map').addEventListener('click', function(e){
-        //sessionStorage.setItem("wantToGo","lvls");
         document.location ="index.html#levels";
     });
 
     $('world').addEventListener('click', function(e){
-        //sessionStorage.setItem("wantToGo","world");
         document.location ="index.html#temple";
     });
 

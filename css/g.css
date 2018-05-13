@@ -33,7 +33,7 @@ body svg {fill: currentColor;width:50%;margin:0 auto;display:block;opacity:0.5;}
   box-sizing:padding-box;
   position:absolute;z-index:200;
   top:10px;
-  width:500px;left:50%;margin-left:-250px;display:block;
+  width:400px;left:50%;margin-left:-250px;display:block;
   padding:10px;
   border-style: solid;
   border-width: 10px 10px 10px 10px;

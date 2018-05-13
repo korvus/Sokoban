@@ -15,29 +15,33 @@
   </head>
   <body>
 
-    <div id="game">
-
+    <div class="flex center">
+      <a class="center" href="index.html">
+        <img title="sokoban" alt="Sokoban" class="logo" src="r/i/logo.svg" class="home" width="300">
+      </a>
+      <div class="center">
+        <span class="bl" title="move to world list" id="world">00</span>
+        <span class="bl" id="map" title="move to level list">00</span>
+      </div>
     </div>
 
+    <div id="game"></div>
+
     <div id="info">
-      <div class="block infos">
-        <b>pushes:</b><span id="pushes">0000</span><br />
-        <b>moves:</b><span id="moves">0000</span><br />
-        <span class="best hide">Your best moves: <span id="best">0000</span></span>
-      </div>
-      <div class="block where">
-        <b>Level</b> <span id="map" title="move to the list of level">00</span><br />
-        <b>World</b> <span title="move to list of world" id="world">00</span>
+      <div class="block">
+        <a href="#" id="restart">
+          <kbd title="You can press R for restart">R</kbd>estart
+        </a>
       </div>
       <div class="block">
         <a href="#" id="undo">
           <kbd  title="You can press U for undo">U</kbd>ndo
         </a>
       </div>
-      <div class="block">
-        <a href="#" id="restart">
-          <kbd title="You can press R for restart">R</kbd>estart
-        </a>
+      <div class="block infos">
+        <b>pushes:</b><span id="pushes">0000</span><br />
+        <b>moves:</b><span id="moves">0000</span><br />
+        <span class="best hide">Your best moves: <span id="best">0000</span></span>
       </div>
     </div>
 
