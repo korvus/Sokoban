@@ -91,8 +91,22 @@ ul.worlds li a:focus{
   border-image: url(i/borders-focus.png) 16 15 18 16 fill repeat;
 }
 
+.line {
+  height: 40px;
+}
 
-ul.lvls li{box-sizing:border-box;float:left;width:25%;margin:10px 0;}
+.col {
+  outline: 1px solid #aa0;
+  width: 40px;
+  height: 40px;
+  float: left;
+}
+
+.selected {
+	background: #f0f;
+}
+
+ul.lvls li{box-sizing:border-box;float:left;width:100%;margin:0;}
 ul.lvls li a{margin:0 10px;}
 ul.lvls li.completed{position:relative;}
 ul.lvls li.completed a{

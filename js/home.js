@@ -1,5 +1,8 @@
 //https://github.com/straker/css-style-guide-audit < to test
 
+var height = 20;
+var width = 10;
+
 function listLvl(){
   //Remove, if exists, all stuff on home by default
   cleanHome();
@@ -31,13 +34,93 @@ function setClickOnLvls(){
   }
 }
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function generateGrid(){
+  var container = document.querySelector('ul');
+  container.setAttribute("class","lvls");
+  for(a = 0; a < height; a++){
+    var line = document.createElement('li');
+    for(b = 0; b < width; b++) {
+      var col = document.createElement('div');
+      col.dataset.col = b;
+      col.dataset.lin = a;
+      col.classList.add("col");
+      line.appendChild(col);
+    }
+    line.classList.add("line");
+    container.appendChild(line);
+  }
+}
+
+function generatePath(){
+  var startLine = [];
+  var startCol = [];
+  var direction = '';
+
+  var b = 0;
+  var cumulBottomDirection = 0;
+
+  startLine[0] = 0;
+  startCol[0] = 5;
+  direction = 'b';
+
+  document.querySelector('[data-col="5"][data-lin="0"]').classList.add('selected');
+
+  while (startLine[b] <= height) {
+    b++;
+
+    var randomDirection = getRandomInt(10);
+    console.log(cumulBottomDirection);
+    if(cumulBottomDirection === 1){randomDirection = 0;}
+    if(cumulBottomDirection > 2){randomDirection = width;}
+
+    // console.log(direction);
+    if(randomDirection>5){
+      cumulBottomDirection = 0;
+      // Déplacement horizontal
+      var randomNumber = getRandomInt(width);
+      if(direction !== 'b'){
+        if(direction === 'r'){ randomNumber = width; }
+        if(direction === 'l'){ randomNumber = 0; }
+      }
+      if(randomNumber >= startCol[b-1]){
+        direction = 'r';
+        startCol[b] = startCol[b-1]+1;
+      } else {
+        direction = 'l';
+        startCol[b] = startCol[b-1]-1;
+      }
+      startLine[b] = startLine[b-1];
+    } else {
+      // Déplacement vertical
+      direction = 'b';
+      cumulBottomDirection++;
+      startCol[b] = startCol[b-1];
+      startLine[b] = startLine[b-1]+1;
+      if(startLine[b-1]+1 === 20){
+        break;
+      }
+    }
+
+    document.querySelector('[data-col="'+startCol[b]+'"][data-lin="'+startLine[b]+'"]').classList.add('selected');
+  }
+}
 
 function displayLvls(lvls, world){
   window.location = "#levels";
   var nbLvls = lvls.length;
+
+  generateGrid();
+  generatePath();
+
+  var height = 20;
+  var width = 10;
+  /*
   var b = 0;
   var ul = document.querySelector('ul');
-  ul.setAttribute("class","lvls");
   var list = [], links = [], text = [];
   for(b; b < nbLvls; b++){
     list[b] = document.createElement('li');
@@ -62,6 +145,7 @@ function displayLvls(lvls, world){
     list[b].appendChild(links[b]);
     ul.appendChild(list[b]);
   }
+  */
   setClickOnLvls();
   setConsole();
 }
