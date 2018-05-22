@@ -6,7 +6,7 @@ body{background:url(i/home.png) no-repeat;background-size:100% auto;background-p
 
 .logo { width: 100%; }
 
-main{margin:0 auto;max-width:400px;overflow:hidden;}
+main{margin:0 auto;max-width:400px;}
 h1{text-align:center;padding:20px 0 0;margin:0;}
 h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;text-shadow:0 0 4px #fff;}
 
@@ -71,7 +71,7 @@ h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;text-shado
 }
 
 /* List world */
-ul{padding:0;margin:0 0 90px 0;overflow:hidden;}
+ul{padding:0;margin:0 0 90px 0;display:inline-block;}
 ul li{list-style:none;margin:0;padding:0;}
 ul li a{text-decoration:none;padding:0 11px 11px 0;margin:5px 0;color:#fff;font-size:20px;display:block;text-align:center;border:1px dotted #fff;cursor:pointer;}
 
@@ -96,16 +96,87 @@ ul.worlds li a:focus{
 }
 
 .col {
-  outline: 1px solid #aa0;
+  /* outline: 1px solid rgba(0,0,0,0.3); */
   width: 40px;
   height: 40px;
   float: left;
 }
 
-.selected {
-	background: #f0f;
+.path {
+	background: url(i/sprite-paths.png) no-repeat 0 -80px;
 }
 
+.temple{
+	outline:1px solid red;
+	position:relative;
+}
+
+.temple0{
+	position:relative;
+	outline:1px solid purple;
+	z-index: 3;
+}
+
+.vertical {
+	background-position: 0 -80px;
+}
+
+.fromRightToLeft,
+.fromLeftToRight {
+	background-position: -40px -80px;
+}
+
+.fromTopToLeft { background-position: -40px 0px; }
+.fromTopToRight { background-position: 0 0; }
+.fromRightToBottom { background-position: 0 -40px; }
+.fromLeftToBottom { background-position: -40px -40px; }
+
+.topMap {
+	background:url(i/worldSprite.png) no-repeat 0 0;
+	height: 128px;
+	width: 400px;
+	padding: 0 80px;
+	margin-left: -80px;
+	position: relative;
+}
+
+.topMap:after {
+	position: absolute;
+	left:280px;
+	bottom:0;
+	content: '';
+	display: block;
+	width:40px;
+	height:30px;
+	background:url(i/endPath.png) no-repeat 0 0;
+}
+
+.mapBottom {
+	background:url(i/worldSprite.png) no-repeat 0 100%;
+	height: 120px;
+	width: 400px;
+	padding: 0 80px;
+	margin:-10px 0 80px -80px;
+}
+
+.last{position:relative;}
+.last:after {
+	position: absolute;
+	left:0;
+	bottom:-30px;
+	content: '';
+	display: block;
+	width:40px;
+	height:30px;
+	background:url(i/endPath.png) no-repeat 0 100%;
+}
+
+
+.movehorizontal{
+	outline: 1px solid red;
+}
+
+ul.lvls {background: url(i/worldBorders.png) 4px 0 repeat-y;margin:0 0 0 -80px;width:400px;padding:0 80px;box-sizing:initial;}
 ul.lvls li{box-sizing:border-box;float:left;width:100%;margin:0;}
 ul.lvls li a{margin:0 10px;}
 ul.lvls li.completed{position:relative;}

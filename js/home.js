@@ -3,6 +3,12 @@
 var height = 20;
 var width = 10;
 
+
+// hasClass(document.getElementById('ud'), 'class-deska');
+function hasClass(element, cls) {
+    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+}
+
 function listLvl(){
   //Remove, if exists, all stuff on home by default
   cleanHome();
@@ -39,7 +45,18 @@ function getRandomInt(max) {
 }
 
 function generateGrid(){
+  var mapTop = document.createElement("div");
+  mapTop.setAttribute("class", "topMap");
+
+  var mapBottom = document.createElement("div");
+  mapBottom.setAttribute("class", "mapBottom");
+
+  var mainWrapper = document.querySelector('main');
+
   var container = document.querySelector('ul');
+  mainWrapper.insertBefore(mapTop, container);
+  mainWrapper.append(mapBottom);
+
   container.setAttribute("class","lvls");
   for(a = 0; a < height; a++){
     var line = document.createElement('li');
@@ -58,7 +75,9 @@ function generateGrid(){
 function generatePath(){
   var startLine = [];
   var startCol = [];
+  var cnEdge = [];
   var direction = '';
+  var cn = '';
 
   var b = 0;
   var cumulBottomDirection = 0;
@@ -67,18 +86,36 @@ function generatePath(){
   startCol[0] = 5;
   direction = 'b';
 
-  document.querySelector('[data-col="5"][data-lin="0"]').classList.add('selected');
+  document.querySelector('[data-col="5"][data-lin="0"]').classList.add('path');
 
   while (startLine[b] <= height) {
     b++;
 
     var randomDirection = getRandomInt(10);
-    console.log(cumulBottomDirection);
     if(cumulBottomDirection === 1){randomDirection = 0;}
-    if(cumulBottomDirection > 2){randomDirection = width;}
 
-    // console.log(direction);
+    if(startCol[b-1] === width-1){
+      if(cumulBottomDirection===0){
+        randomDirection = 0;
+      }else{
+        direction = 'l';
+      }
+    }
+    if(startCol[b-1] === 0){
+      if(cumulBottomDirection===0){
+        randomDirection = 0;
+      }else{
+        direction = 'r';
+      }
+    };
+
+
+    if(cumulBottomDirection > 2){
+      randomDirection = width;
+    }
+
     if(randomDirection>5){
+
       cumulBottomDirection = 0;
       // Déplacement horizontal
       var randomNumber = getRandomInt(width);
@@ -101,11 +138,76 @@ function generatePath(){
       startCol[b] = startCol[b-1];
       startLine[b] = startLine[b-1]+1;
       if(startLine[b-1]+1 === 20){
+        document.querySelector('[data-col="'+startCol[b-1]+'"][data-lin="'+startLine[b-1]+'"]').classList.add('last');
         break;
       }
     }
 
-    document.querySelector('[data-col="'+startCol[b]+'"][data-lin="'+startLine[b]+'"]').classList.add('selected');
+    document.querySelector('[data-col="'+startCol[b]+'"][data-lin="'+startLine[b]+'"]').classList.add('path');
+
+    if(b>1){
+
+      if(startCol[b-2] > startCol[b-1]){cn = 'fromRight';}
+      if(startCol[b-2] < startCol[b-1]){cn = 'fromLeft';}
+      if(startCol[b-2] === startCol[b-1]){ cn = 'fromTop';}
+      // console.log(startLine[b-2] ,'/', startLine[b-1], '/', cn);
+
+      var lastCn = '';
+      if(startCol[b-1] > startCol[b]){lastCn = 'fromRightToBottom';}
+      if(startCol[b-1] < startCol[b]){lastCn = 'fromLeftToBottom';}
+      if(startCol[b-1] === startCol[b]){ lastCn = 'fromTopToBottom';}
+      cnEdge[b] = lastCn;
+
+      if(startCol[b-1] > startCol[b]){cn += 'ToLeft';}
+      if(startCol[b-1] < startCol[b]){cn += 'ToRight';}
+      if(startCol[b-1] === startCol[b]){ cn += 'ToBottom';}
+
+      document.querySelector('[data-col="'+startCol[b-1]+'"][data-lin="'+startLine[b-1]+'"]').classList.remove(cnEdge[b-1]);
+      document.querySelector('[data-col="'+startCol[b-1]+'"][data-lin="'+startLine[b-1]+'"]').classList.add(cn);
+      document.querySelector('[data-col="'+startCol[b]+'"][data-lin="'+startLine[b]+'"]').classList.add(lastCn);
+
+    } else if(b === 1){
+      if(startCol[b-1] > startCol[b]){cn += 'fromTopToLeft';}
+      if(startCol[b-1] < startCol[b]){cn += 'fromTopToRight';}
+      if(startCol[b-1] === startCol[b]){ cn += 'fromTopToBottom';}
+      // First case
+      document.querySelector('[data-col="'+startCol[b-1]+'"][data-lin="'+startLine[b-1]+'"]').classList.add(cn);
+    }
+
+
+    /* 1 sur 3 */
+    var gap = 3;
+    var breakLoop = false;
+    if(b%gap === 1 && b !== 1){
+      for(acol=(startCol[b-gap]-1); acol<=(startCol[b-gap]+1); acol++){
+        for(brow=(startLine[b-gap]-1);brow<=(startLine[b-gap]+1); brow++){
+          if(document.querySelector('[data-col="'+acol+'"][data-lin="'+brow+'"]')){
+            var potentialTemple = document.querySelector('[data-col="'+acol+'"][data-lin="'+brow+'"]');
+            if(!hasClass(potentialTemple, 'path')){
+              // Check if another temple around
+              /*
+              for(tcol=acol-1; tcol<=acol+1; tcol++){
+                for(trow=brow-1; trow<=brow+1; trow++){
+                  if()
+                }
+              }
+              */
+              potentialTemple.classList.add('temple');
+              breakLoop = true;
+              break;
+            }
+            // .classList.add('temple')
+          }
+        }
+        if (breakLoop){
+          breakLoop = false;
+          break;
+        }
+      }
+    }
+
+
+  /* End boucle */
   }
 }
 
@@ -244,10 +346,17 @@ function removeConsol(){
   }
 }
 
+function removeDecorum(){
+  if(document.querySelector('.topMap')){
+    document.querySelector('.topMap').remove();
+  };
+}
+
 //Function for remove all the stuffs on the homepage
 function cleanHome(){
   removeLists();
   removeConsol();
+  removeDecorum();
   changeH2("Choose a world");
   removeCharacter();
   removeBT();
