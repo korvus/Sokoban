@@ -58,6 +58,7 @@ function generateGrid(){
   mainWrapper.append(mapBottom);
 
   container.setAttribute("class","lvls");
+  /*
   for(a = 0; a < height; a++){
     var line = document.createElement('li');
     for(b = 0; b < width; b++) {
@@ -70,14 +71,17 @@ function generateGrid(){
     line.classList.add("line");
     container.appendChild(line);
   }
+  */
 }
 
-function generatePath(){
+function generatePath(nbLvls, world){
   var startLine = [];
   var startCol = [];
   var cnEdge = [];
   var direction = '';
   var cn = '';
+  var lineIter = 0;
+  var nbTmpl = 0;
 
   var b = 0;
   var cumulBottomDirection = 0;
@@ -85,10 +89,25 @@ function generatePath(){
   startLine[0] = 0;
   startCol[0] = 5;
   direction = 'b';
+  // startDrawingPath = 0;
+
+  var container = document.querySelector('ul');
+
+  var line = document.createElement('li');
+  for(ba = 0; ba < width; ba++) {
+    var precol = document.createElement('div');
+    precol.dataset.col = ba;
+    precol.dataset.lin = 0;
+    precol.classList.add("col");
+    line.appendChild(precol);
+  }
+  line.classList.add("line");
+  container.appendChild(line);
 
   document.querySelector('[data-col="5"][data-lin="0"]').classList.add('path');
 
-  while (startLine[b] <= height) {
+  // while (startLine[b] <= height) {
+  while (nbLvls !== 0) {
     b++;
 
     var randomDirection = getRandomInt(10);
@@ -108,7 +127,6 @@ function generatePath(){
         direction = 'r';
       }
     };
-
 
     if(cumulBottomDirection > 2){
       randomDirection = width;
@@ -133,16 +151,27 @@ function generatePath(){
       startLine[b] = startLine[b-1];
     } else {
       // Déplacement vertical
+      /* -pregenerate the line------- */
+      lineIter++;
+      var line = document.createElement('li');
+      for(bb = 0; bb < width; bb++) {
+        var precol = document.createElement('div');
+        precol.dataset.col = bb;
+        precol.dataset.lin = lineIter;
+        precol.classList.add("col");
+        line.appendChild(precol);
+      }
+      line.classList.add("line");
+      container.appendChild(line);
+      /* -------- */
+
       direction = 'b';
       cumulBottomDirection++;
       startCol[b] = startCol[b-1];
       startLine[b] = startLine[b-1]+1;
-      if(startLine[b-1]+1 === 20){
-        document.querySelector('[data-col="'+startCol[b-1]+'"][data-lin="'+startLine[b-1]+'"]').classList.add('last');
-        break;
-      }
     }
 
+    // console.log(startCol[b],'-',startLine[b]);
     document.querySelector('[data-col="'+startCol[b]+'"][data-lin="'+startLine[b]+'"]').classList.add('path');
 
     if(b>1){
@@ -178,23 +207,62 @@ function generatePath(){
     /* 1 sur 3 */
     var gap = 3;
     var breakLoop = false;
+    var loop = 0;
+    var templePossible = [];
+
+    /* Create temples */
     if(b%gap === 1 && b !== 1){
       for(acol=(startCol[b-gap]-1); acol<=(startCol[b-gap]+1); acol++){
         for(brow=(startLine[b-gap]-1);brow<=(startLine[b-gap]+1); brow++){
           if(document.querySelector('[data-col="'+acol+'"][data-lin="'+brow+'"]')){
+            loop++;
             var potentialTemple = document.querySelector('[data-col="'+acol+'"][data-lin="'+brow+'"]');
             if(!hasClass(potentialTemple, 'path')){
               // Check if another temple around
-              /*
+              templePossible[loop] = true;
               for(tcol=acol-1; tcol<=acol+1; tcol++){
                 for(trow=brow-1; trow<=brow+1; trow++){
-                  if()
+                  if(document.querySelector('[data-col="'+tcol+'"][data-lin="'+trow+'"]')){
+                    var aroundPossible = document.querySelector('[data-col="'+tcol+'"][data-lin="'+trow+'"]');
+                    if(hasClass(aroundPossible, 'temple')){
+                      templePossible[loop] = false;
+                    }
+                  }
                 }
               }
-              */
-              potentialTemple.classList.add('temple');
-              breakLoop = true;
-              break;
+              if(templePossible[loop]){
+
+                var nbMv = localStorage.getItem("status-"+world+"-"+nbTmpl);
+                potentialTemple.classList.add('temple');
+                breakLoop = true;
+                nbLvls--;
+                potentialTemple.classList.add('temple-'+nbTmpl);
+                nbTmpl++;
+
+                /*
+                var lkTemple = document.createElement('a');
+                lkTemple.dataset.world = world;
+                lkTemple.dataset.lvl = nbTmpl;
+                */
+
+                  if(!nbMv || nbMv == 0){
+                    localStorage.setItem("status-"+world+"-"+b, 0);
+                    potentialTemple.classList.add("uncompleted");
+                  }
+                  /*else{
+                    var moves = document.createElement("span");
+                    var hm = document.createTextNode(nbMv);
+                    moves.appendChild(hm);
+                    list[b].setAttribute("class","completed");
+                    list[b].appendChild(moves);
+                  }*/
+
+
+                if(nbLvls === 0){
+                  document.querySelector('[data-col="'+startCol[b]+'"][data-lin="'+startLine[b]+'"]').classList.add('last');
+                }
+                break;
+              }
             }
             // .classList.add('temple')
           }
@@ -216,7 +284,7 @@ function displayLvls(lvls, world){
   var nbLvls = lvls.length;
 
   generateGrid();
-  generatePath();
+  generatePath(nbLvls, world);
 
   var height = 20;
   var width = 10;

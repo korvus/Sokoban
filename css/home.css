@@ -71,7 +71,8 @@ h2{margin:0 0 10px 0;text-align:center;color:#222;padding-bottom:40px;text-shado
 }
 
 /* List world */
-ul{padding:0;margin:0 0 90px 0;display:inline-block;}
+ul{padding:0;}
+ul.lvls{margin:0 0 90px 0;display:inline-block;}
 ul li{list-style:none;margin:0;padding:0;}
 ul li a{text-decoration:none;padding:0 11px 11px 0;margin:5px 0;color:#fff;font-size:20px;display:block;text-align:center;border:1px dotted #fff;cursor:pointer;}
 
@@ -107,15 +108,42 @@ ul.worlds li a:focus{
 }
 
 .temple{
-	outline:1px solid red;
 	position:relative;
+}
+.temple:before{
+	position:absolute;
+	top:-5px;
+	left:-5px;
+	content:"";
+	display:block;
+	width:50px;
+	height:50px;
+	background: url(i/templeSprite.png) no-repeat 0 0;
 }
 
-.temple0{
-	position:relative;
-	outline:1px solid purple;
-	z-index: 3;
-}
+.temple-0:before{	background-position:0 0;}
+.temple-1:before{ background-position:-50px 0;}
+.temple-2:before{	background-position:-100px 0;}
+.temple-3:before{	background-position:-150px 0;}
+.temple-4:before{	background-position:-200px 0;}
+.temple-5:before{	background-position:-250px 0;}
+.temple-6:before{	background-position:-300px 0;}
+.temple-7:before{	background-position:-350px 0;}
+.temple-8:before{	background-position:-400px 0;}
+.temple-9:before{	background-position:-450px 0;}
+.temple-10:before{background-position:-500px 0;}
+
+.temple-11:before{	background-position:0 -50px;}
+.temple-12:before{ 	background-position:-50px -50px;}
+.temple-13:before{	background-position:-100px -50px;}
+.temple-14:before{	background-position:-200px -50px;}
+.temple-15:before{	background-position:-250px -50px;}
+.temple-16:before{	background-position:-300px -50px;}
+.temple-17:before{	background-position:-350px -50px;}
+.temple-18:before{	background-position:-400px -50px;}
+.temple-19:before{	background-position:-450px -50px;}
+.temple-20:before{	background-position:-500px -50px;}
+
 
 .vertical {
 	background-position: 0 -80px;
