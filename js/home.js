@@ -28,13 +28,14 @@ function listLvl(){
 }
 
 function setClickOnLvls(){
-  var lksToLvls = document.querySelectorAll("ul li a");
+  var lksToLvls = document.querySelectorAll("ul li .temple");
   var c = 0;
   for (c; c < lksToLvls.length; c++){
     lksToLvls[c].addEventListener('click', function(e){
       e.preventDefault();
       localStorage.setItem("playWorld", this.dataset.world);
       localStorage.setItem("playLvl", this.dataset.lvl);
+      // console.log(this.dataset.world, '-', this.dataset.lvl)
       document.location.href = "game.html";
     });
   }
@@ -236,27 +237,29 @@ function generatePath(nbLvls, world){
                 potentialTemple.classList.add('temple');
                 breakLoop = true;
                 nbLvls--;
-                potentialTemple.classList.add('temple-'+nbTmpl);
+                var classSuffix = nbTmpl;
+                if(nbTmpl>45){
+                  classSuffix = getRandomInt(45);
+                }
+                potentialTemple.classList.add('temple-'+classSuffix);
+
+                potentialTemple.dataset.world = world;
+                potentialTemple.dataset.lvl = nbTmpl;
+
                 nbTmpl++;
 
-                /*
-                var lkTemple = document.createElement('a');
-                lkTemple.dataset.world = world;
-                lkTemple.dataset.lvl = nbTmpl;
-                */
+                if(nbMv === "0"){
+                  localStorage.setItem("status-"+world+"-"+b, 0);
+                  potentialTemple.classList.add("uncompleted");
+                } else {
+                  var moves = document.createElement("span");
+                  var hm = document.createTextNode(nbMv);
+                  moves.appendChild(hm);
+                  potentialTemple.classList.add("completed");
+                  potentialTemple.appendChild(moves);
+                }
 
-                  if(!nbMv || nbMv == 0){
-                    localStorage.setItem("status-"+world+"-"+b, 0);
-                    potentialTemple.classList.add("uncompleted");
-                  }
-                  /*else{
-                    var moves = document.createElement("span");
-                    var hm = document.createTextNode(nbMv);
-                    moves.appendChild(hm);
-                    list[b].setAttribute("class","completed");
-                    list[b].appendChild(moves);
-                  }*/
-
+                setClickOnLvls();
 
                 if(nbLvls === 0){
                   document.querySelector('[data-col="'+startCol[b]+'"][data-lin="'+startLine[b]+'"]').classList.add('last');
@@ -417,6 +420,9 @@ function removeConsol(){
 function removeDecorum(){
   if(document.querySelector('.topMap')){
     document.querySelector('.topMap').remove();
+  };
+  if(document.querySelector('.mapBottom')){
+    document.querySelector('.mapBottom').remove();
   };
 }
 

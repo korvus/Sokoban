@@ -834,6 +834,7 @@ function setRandomBG(){
   fetchJSONFile('css/i/bg/bg.json', function(data){
     random = Math.round(getRandomArbitrary(0,parseInt(data.number)));
     document.querySelector("html").style.backgroundImage = "url(css/i/bg/bg"+random+".png)";
+    document.querySelector("html").dataset.bg = random;
   });
 }
 

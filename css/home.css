@@ -109,7 +109,15 @@ ul.worlds li a:focus{
 
 .temple{
 	position:relative;
+	border-radius: 50%;
 }
+
+.temple:hover{
+	cursor:pointer;
+	background: rgba(219,0,0,0.3);
+	box-shadow: 0 0 20px #db0000;
+}
+
 .temple:before{
 	position:absolute;
 	top:-5px;
@@ -132,20 +140,96 @@ ul.worlds li a:focus{
 .temple-8:before{	background-position:-400px 0;}
 .temple-9:before{	background-position:-450px 0;}
 
-.temple-10:before{	background-position:0 -50px;}
-.temple-11:before{ 	background-position:-50px -50px;}
-.temple-12:before{	background-position:-100px -50px;}
-.temple-13:before{	background-position:-150px -50px;}
-.temple-14:before{	background-position:-200px -50px;}
-.temple-15:before{	background-position:-250px -50px;}
-.temple-16:before{	background-position:-300px -50px;}
-.temple-17:before{	background-position:-350px -50px;}
-.temple-18:before{	background-position:-400px -50px;}
-.temple-19:before{	background-position:-450px -50px;}
+.temple-0.completed:before { background-position: 0 -50px; }
+.temple-1.completed:before { background-position: -50px -50px; }
+.temple-2.completed:before { background-position: -100px -50px; }
+.temple-3.completed:before { background-position: -150px -50px; }
+.temple-4.completed:before { background-position: -200px -50px; }
+.temple-5.completed:before { background-position: -250px -50px; }
+.temple-6.completed:before { background-position: -300px -50px; }
+.temple-7.completed:before { background-position: -350px -50px; }
+.temple-8.completed:before { background-position: -400px -50px; }
+.temple-9.completed:before { background-position: -450px -50px; }
 
-.temple-20:before{	background-position:-0px -100px;}
-.temple-21:before{	background-position:-50px -100px;}
-.temple-22:before{	background-position:-100px -100px;}
+.temple-10:before{	background-position:0 -100px;}
+.temple-11:before{ 	background-position:-50px -100px;}
+.temple-12:before{	background-position:-100px -100px;}
+.temple-13:before{	background-position:-150px -100px;}
+.temple-14:before{	background-position:-200px -100px;}
+.temple-15:before{	background-position:-250px -100px;}
+.temple-16:before{	background-position:-300px -100px;}
+.temple-17:before{	background-position:-350px -100px;}
+.temple-18:before{	background-position:-400px -100px;}
+.temple-19:before{	background-position:-450px -100px;}
+
+.temple-10.completed:before{	background-position:0 -150px;}
+.temple-11.completed:before{ 	background-position:-50px -150px;}
+.temple-12.completed:before{	background-position:-100px -150px;}
+.temple-13.completed:before{	background-position:-150px -150px;}
+.temple-14.completed:before{	background-position:-200px -150px;}
+.temple-15.completed:before{	background-position:-250px -150px;}
+.temple-16.completed:before{	background-position:-300px -150px;}
+.temple-17.completed:before{	background-position:-350px -150px;}
+.temple-18.completed:before{	background-position:-400px -150px;}
+.temple-19.completed:before{	background-position:-450px -150px;}
+
+.temple-20:before{	background-position:-0px -300px;}
+.temple-21:before{	background-position:-50px -300px;}
+.temple-22:before{	background-position:-100px -300px;}
+.temple-23:before{	background-position:-150px -300px;}
+.temple-24:before{	background-position:-200px -300px;}
+.temple-25:before{	background-position:-250px -300px;}
+.temple-26:before{	background-position:-300px -300px;}
+.temple-27:before{	background-position:-350px -300px;}
+.temple-28:before{	background-position:-400px -300px;}
+.temple-29:before{	background-position:-450px -300px;}
+
+.temple-20.completed:before{	background-position:-0px -350px;}
+.temple-21.completed:before{	background-position:-50px -350px;}
+.temple-22.completed:before{	background-position:-100px -350px;}
+.temple-23.completed:before{	background-position:-150px -350px;}
+.temple-24.completed:before{	background-position:-200px -350px;}
+.temple-25.completed:before{	background-position:-250px -350px;}
+.temple-26.completed:before{	background-position:-300px -350px;}
+.temple-27.completed:before{	background-position:-350px -350px;}
+.temple-28.completed:before{	background-position:-400px -350px;}
+.temple-29.completed:before{	background-position:-450px -350px;}
+
+.temple-30:before{	background-position:-0px -400px;}
+.temple-31:before{	background-position:-50px -400px;}
+.temple-32:before{	background-position:-100px -400px;}
+.temple-33:before{	background-position:-150px -400px;}
+.temple-34:before{	background-position:-200px -400px;}
+.temple-35:before{	background-position:-250px -400px;}
+.temple-36:before{	background-position:-300px -400px;}
+.temple-37:before{	background-position:-350px -400px;}
+.temple-38:before{	background-position:-400px -400px;}
+.temple-39:before{	background-position:-450px -400px;}
+
+.temple-30.completed:before{	background-position:-0px -450px;}
+.temple-31.completed:before{	background-position:-50px -450px;}
+.temple-32.completed:before{	background-position:-100px -450px;}
+.temple-33.completed:before{	background-position:-150px -450px;}
+.temple-34.completed:before{	background-position:-200px -450px;}
+.temple-35.completed:before{	background-position:-250px -450px;}
+.temple-36.completed:before{	background-position:-300px -450px;}
+.temple-37.completed:before{	background-position:-350px -450px;}
+.temple-38.completed:before{	background-position:-400px -450px;}
+.temple-39.completed:before{	background-position:-450px -450px;}
+
+.temple-40:before{	background-position:-0px -200px;}
+.temple-41:before{	background-position:-50px -200px;}
+.temple-42:before{	background-position:-100px -200px;}
+.temple-43:before{	background-position:-150px -200px;}
+.temple-44:before{	background-position:-200px -200px;}
+.temple-45:before{	background-position:-250px -200px;}
+
+.temple-40.completed:before{	background-position:-0px -250px;}
+.temple-41.completed:before{	background-position:-50px -250px;}
+.temple-42.completed:before{	background-position:-100px -250px;}
+.temple-43.completed:before{	background-position:-150px -250px;}
+.temple-44.completed:before{	background-position:-200px -250px;}
+.temple-45.completed:before{	background-position:-250px -250px;}
 
 .vertical {
 	background-position: 0 -80px;

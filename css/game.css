@@ -63,7 +63,48 @@ body {
 .floor{background-image:url(i/ground.png);}
 
 .walkable{overflow:hidden;}
-.walkable:before{cursor:pointer;display:block;content:"";position:absolute;top:0;left:0;width:100%;padding-bottom:100%;z-index:2;background:rgba(250,0,0,0.4);}
+.walkable:before{cursor:pointer;display:block;content:"";position:absolute;top:0;left:0;width:100%;padding-bottom:100%;z-index:2;}
+html[data-bg="0"] .walkable:before{background:rgba(230,159,159,0.6);}
+html[data-bg="1"] .walkable:before{background:rgba(247,190,247,0.6);}
+html[data-bg="2"] .walkable:before{background:rgba(143,191,219,0.6);}
+html[data-bg="3"] .walkable:before{background:rgba(122,149,128,0.6);}
+html[data-bg="4"] .walkable:before{background:rgba(156,129,158,0.6);}
+html[data-bg="5"] .walkable:before{background:rgba(129,139,158,0.6);}
+html[data-bg="6"] .walkable:before{background:rgba(123,211,219,0.6);}
+html[data-bg="7"] .walkable:before{background:rgba(123,176,219,0.6);}
+html[data-bg="8"] .walkable:before{background:rgba(245,229,166,0.6);}
+html[data-bg="9"] .walkable:before{background:rgba(255,63,25,0.6);}
+html[data-bg="10"] .walkable:before{background:rgba(39,146,246,0.6);}
+html[data-bg="11"] .walkable:before{background:rgba(93,205,85,0.6);}
+html[data-bg="12"] .walkable:before{background:rgba(237,148,237,0.6);}
+html[data-bg="13"] .walkable:before{background:rgba(204,92,204,0.6);}
+html[data-bg="14"] .walkable:before{background:rgba(97,110,209,0.6);}
+html[data-bg="15"] .walkable:before{background:rgba(99,188,211,0.6);}
+html[data-bg="16"] .walkable:before{background:rgba(120,147,111,0.6);}
+html[data-bg="17"] .walkable:before{background:rgba(94,163,73,0.6);}
+html[data-bg="18"] .walkable:before{background:rgba(249,255,131,0.6);}
+html[data-bg="19"] .walkable:before{background:rgba(255,147,131,0.6);}
+html[data-bg="20"] .walkable:before{background:rgba(184,156,129,0.6);}
+html[data-bg="21"] .walkable:before{background:rgba(180,184,129,0.6);}
+html[data-bg="22"] .walkable:before{background:rgba(129,155,185,0.6);}
+html[data-bg="23"] .walkable:before{background:rgba(154,129,184,0.6);}
+html[data-bg="24"] .walkable:before{background:rgba(167,129,185,0.6);}
+html[data-bg="25"] .walkable:before{background:rgba(185,80,114,0.6);}
+html[data-bg="26"] .walkable:before{background:rgba(108,90,76,0.6);}
+html[data-bg="27"] .walkable:before{background:rgba(106,73,106,0.6);}
+html[data-bg="28"] .walkable:before{background:rgba(210,207,125,0.6);}
+html[data-bg="29"] .walkable:before{background:rgba(251,176,106,0.6);}
+html[data-bg="30"] .walkable:before{background:rgba(190,156,123,0.6);}
+html[data-bg="31"] .walkable:before{background:rgba(126,192,131,0.6);}
+html[data-bg="32"] .walkable:before{background:rgba(125,186,191,0.6);}
+html[data-bg="33"] .walkable:before{background:rgba(148,126,192,0.6);}
+html[data-bg="34"] .walkable:before{background:rgba(89,131,95,0.6);}
+html[data-bg="35"] .walkable:before{background:rgba(118,130,88,0.6);}
+html[data-bg="36"] .walkable:before{background:rgba(98,134,139,0.6);}
+html[data-bg="37"] .walkable:before{background:rgba(170,149,177,0.6);}
+html[data-bg="38"] .walkable:before{background:rgba(153,181,158,0.6);}
+html[data-bg="39"] .walkable:before{background:rgba(167,195,254,0.6);}
+html[data-bg="40"] .walkable:before{background:rgba(253,195,166,0.6);}
 
 .bwd{background-image:url(i/backward.png), url(i/ground.png);}
 .right{background-image:url(i/chrright.png), url(i/ground.png);}
