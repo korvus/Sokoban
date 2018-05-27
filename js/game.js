@@ -496,6 +496,7 @@ Sokoban.prototype.endLevel = function(){
     current = parseInt(current);
     //Save the moves if better than previous
     if(current===0 || current>this.moves){
+        console.log("coucou", world, lvl);
         localStorage.setItem("status-"+world+"-"+lvl, this.moves);
     }
 

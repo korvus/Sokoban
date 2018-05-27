@@ -246,10 +246,8 @@ function generatePath(nbLvls, world){
                 potentialTemple.dataset.world = world;
                 potentialTemple.dataset.lvl = nbTmpl;
 
-                nbTmpl++;
-
-                if(nbMv === "0"){
-                  localStorage.setItem("status-"+world+"-"+b, 0);
+                if(nbMv === "0" || !nbMv){
+                  localStorage.setItem("status-"+world+"-"+nbTmpl, 0);
                   potentialTemple.classList.add("uncompleted");
                 } else {
                   var moves = document.createElement("span");
@@ -259,6 +257,7 @@ function generatePath(nbLvls, world){
                   potentialTemple.appendChild(moves);
                 }
 
+                nbTmpl++;
                 setClickOnLvls();
 
                 if(nbLvls === 0){

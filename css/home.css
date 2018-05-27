@@ -309,7 +309,7 @@ ul.lvls li.uncompleted a{
   border-image: url(i/borders.png) 16 15 18 16 fill repeat;
 }
 
-ul.lvls span{position:absolute;bottom:7px;right:28px;padding:2px;border:1px solid #fff;display:block;
+ul.lvls span{position:absolute;bottom:29px;right:45px;padding:2px;border:1px solid #fff;display:block;
   background:#563F25;color:#fff;font-family:Arial;font-size:11px;box-shadow:0 0 5px #000;}
 
 ul.lvls li.uncompleted a:hover,
