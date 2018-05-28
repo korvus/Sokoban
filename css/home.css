@@ -309,8 +309,23 @@ ul.lvls li.uncompleted a{
   border-image: url(i/borders.png) 16 15 18 16 fill repeat;
 }
 
-ul.lvls span{position:absolute;bottom:29px;right:45px;padding:2px;border:1px solid #fff;display:block;
-  background:#563F25;color:#fff;font-family:Arial;font-size:11px;box-shadow:0 0 5px #000;}
+ul.lvls span.moves {
+  position:absolute;bottom:36px;right:30px;padding:2px;
+  border:1px solid #fff;display:block;
+  background:#563F25;color:#fff;font-family:Arial;
+  font-size:11px;box-shadow:0 0 5px #000;
+}
+
+ul.lvls span.number {
+  position:absolute;bottom:13px;right:45px;padding:2px;
+  border:3px solid #444;
+  border-radius: 50%;
+  display:block;
+  background:#555;
+  color:#fff;
+  font-family:Arial;
+  font-size:14px;box-shadow:0 0 5px #fff;
+}
 
 ul.lvls li.uncompleted a:hover,
 ul.lvls li.uncompleted a:focus{

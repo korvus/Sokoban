@@ -246,11 +246,19 @@ function generatePath(nbLvls, world){
                 potentialTemple.dataset.world = world;
                 potentialTemple.dataset.lvl = nbTmpl;
 
+                /* The number level */
+                var numero = document.createElement("span");
+                var nodeNumero = document.createTextNode(nbTmpl+1);
+                numero.appendChild(nodeNumero);
+                numero.classList.add("number");
+                potentialTemple.appendChild(numero);
+
                 if(nbMv === "0" || !nbMv){
                   localStorage.setItem("status-"+world+"-"+nbTmpl, 0);
                   potentialTemple.classList.add("uncompleted");
                 } else {
                   var moves = document.createElement("span");
+                  moves.classList.add("moves");
                   var hm = document.createTextNode(nbMv);
                   moves.appendChild(hm);
                   potentialTemple.classList.add("completed");
